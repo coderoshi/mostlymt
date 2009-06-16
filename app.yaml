@@ -1,0 +1,11 @@
+application: mostlymt
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /images
+  static_dir: static/images
+
+- url: .*
+  script: main.py
