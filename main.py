@@ -1,36 +1,50 @@
 #!/usr/bin/env python
-#
-# Copyright 2007 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+# main.py
+# 
+# Copy pasta:
+# import time
+# expires = time.time() + 60 * 60 * 24 * 365 * 10 # 10 years from today
+# format = time.strftime( "%a, %d-%b-%Y 23:59:59 GMT", time.gmtime( expires ) )
+# cookie = "test=yes; expires=%s; path=/" % ( format, )
+# self.response.headers["Set-Cookie"] = cookie
 
 import os
 import wsgiref.handlers
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp, db
 
-class MainHandler(webapp.RequestHandler):
-  def get(self):
-    path = os.path.join(os.path.dirname(__file__), 'templates/index.html')
-    self.response.out.write(template.render(path, {}))
+def template_path( name ):
+	""" Gets the full path to a template by its name. """
+	return os.path.join( os.path.dirname( __file__ ), 'templates/%s.html' % ( name, ) )
 
+def render( name, options={} ):
+	""" Gets and renders a given named template. """
+	return template.render( template_path( name ), options )
+
+class MainHandler( webapp.RequestHandler ):
+	""" Handles requests for the main page. """
+	def get( self ):
+		""" Handles HTTP GET requests. """
+		self.response.out.write( render( 'outer', {
+			'title': 'We do stuff for you',
+			'content': render( 'index', {} )
+		} ) )
+
+class CheckoutHandler( webapp.RequestHandler ):
+	""" Handles requests for the checkout page. """
+	def get( self ):
+		self.response.out.write( render( 'outer', {
+			'title': 'Checkout',
+			'content': render( 'checkout', {} )
+		} ) )
 
 def main():
-  application = webapp.WSGIApplication([('/', MainHandler)],
-                                       debug=True)
-  wsgiref.handlers.CGIHandler().run(application)
+	application = webapp.WSGIApplication([
+		('/', MainHandler),
+		('/checkout', CheckoutHandler),
+	], debug=True)
+	wsgiref.handlers.CGIHandler().run(application)
 
 
 if __name__ == '__main__':
-  main()
+	main()
