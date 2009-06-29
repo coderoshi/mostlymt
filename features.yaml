@@ -7,6 +7,9 @@
 # 
 # IMPORTANT: Changes to this file will not automatically be picked up by AppEngine.  In
 # order to ensure that changes are applied, make sure at least one *.py file has changed.
+# 
+# NOTE: To test a particular value, simply comment out all other values and make sure to
+# make at least one change to an *.py file as explained above.
 ##
 
 # Used to show different color schemes

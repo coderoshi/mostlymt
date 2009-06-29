@@ -33,7 +33,7 @@ def featureset( key=None, **kwargs ):
 	for k, v in kwargs.iteritems():
 		if hasattr( fs, k ) and getattr( fs, k ) == v: continue
 		changed = True
-		setattr( fs, k, v )		
+		setattr( fs, k, v )
 
 	# Fill in FeatureSet instance from allfeatures
 	for feature, groups in allfeatures.iteritems():
