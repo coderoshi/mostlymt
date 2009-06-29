@@ -1,9 +1,9 @@
-<p>Give us a microtask, and we'll take care of it for <strong>$11.99</strong>. <span class="small info"><a href="#pricing">more info?</a></span></p>
+<p>Give us a microtask, and we'll take care of it for <strong>{{ currency }}{{ price }}</strong>. <span class="small info"><a href="#pricing">more info?</a></span></p>
 <dl>
 <dt>microtask:</dt>
 <dd><em>n.</em> A simple task that someone else could do for you remotely.</dd>
 </dl>
-<form action="" method="post">
+<form action="/checkout" method="post">
 <h3>Step 1 - Describe your microtask</h3>
 <p class="hint">Hint: It should take about an hour or less to complete. <span class="small ideas"><a href="#ideas">need ideas?</a></span></p>
 <p><textarea name="description"></textarea></p>
@@ -17,7 +17,7 @@
 <p><input class="button" type="submit" value="Checkout &rarr;" /></p>
 </form>
 <h3 id="pricing">Pricing</h3>
-<p>Tasks up to 1 hour cost $11.99 to complete.  If additional time is needed to complete the task, we'll email you first.</p>
+<p>Tasks up to 1 hour cost {{ currency }}{{ price }} to complete.  If additional time is needed to complete the task, we'll email you first.</p>
 <h3 id="ideas">Ideas</h3>
 <ul>
 <li>Send someone some flowers.</li>

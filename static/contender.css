@@ -1,0 +1,29 @@
+/**
+ * contender.css
+ */
+body {
+  background: #c03030;
+}
+.button {
+  font-size:1.5em;
+}
+.wrapper {
+  background: #ffffff;
+  border: 1px solid black;
+  width: 600px;
+  margin: 0 auto;
+  padding: 23px 30px;
+}
+textarea {
+  width: 590px;
+}
+label strong {
+  display: block;
+  float: left;
+  width: 5em;
+}
+label input {
+  width: 70%;
+}
+
+
