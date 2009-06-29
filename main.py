@@ -22,7 +22,7 @@ class MainHandler( HandlerBase ):
 class CheckoutHandler( HandlerBase ):
 	""" Handles requests for the checkout page. """
 	def get( self ):
-		options = get_options( get_featureset( self ) )
+		options = self.get_options()
 		options["content"] = self.render( "checkout", options )
 		options["tagline"] = "Checkout"
 		self.response.out.write( self.render( "outer", options ) )
