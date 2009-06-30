@@ -7,7 +7,7 @@
 <li>
   <div class="time">{{ ticket.timestamp|date:"P" }}</div>
   <div class="name">{{ ticket.name|escape }}</div>
-  <blockquote class="request">{{ ticket.request|escape }}</blockquote>
+  <blockquote class="description">{{ ticket.description|escape }}</blockquote>
 </li>
 {% endfor %}
 </ul>
