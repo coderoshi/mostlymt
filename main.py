@@ -32,10 +32,18 @@ class CheckoutHandler( HandlerBase ):
 		ticket.put()
 		return self.get()
 
+class FAQHandler( HandlerBase ):
+	""" Handles requests for the FAQ page. """
+	def get( self ):
+		options = self.get_options()
+		options["content"] = self.render( "faq", options )
+		self.response.out.write( self.render( "outer", options ) )
+
 def main():
 	application = webapp.WSGIApplication([
 		('/', MainHandler),
 		('/checkout', CheckoutHandler),
+		('/faq', FAQHandler),
 	], debug=True)
 	wsgiref.handlers.CGIHandler().run(application)
 
