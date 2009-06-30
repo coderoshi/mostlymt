@@ -7,6 +7,7 @@
 import os, yaml, random, time, uuid
 import wsgiref.handlers
 from google.appengine.ext.webapp import template
+from google.appengine.api import mail
 from google.appengine.ext import webapp, db
 from HandlerBase import HandlerBase
 from models.tickets import Tickets
@@ -17,6 +18,13 @@ class MainHandler( HandlerBase ):
 		""" Handles HTTP GET requests. """
 		options = self.get_options()
 		options["content"] = self.render( "index", options )
+		self.response.out.write( self.render( "outer", options ) )
+
+class FAQHandler( HandlerBase ):
+	""" Handles requests for the FAQ page. """
+	def get( self ):
+		options = self.get_options()
+		options["content"] = self.render( "faq", options )
 		self.response.out.write( self.render( "outer", options ) )
 
 class CheckoutHandler( HandlerBase ):
@@ -30,20 +38,26 @@ class CheckoutHandler( HandlerBase ):
 	def post( self ):
 		ticket = self.create( Tickets, ('email', 'name', 'phone', 'description') )
 		ticket.put()
-		return self.get()
+		
+		message = mail.EmailMessage(sender="eric.redmond@gmail.com",
+		                            subject="Someone gave you a task")
+		
+		message.to = "Jim Wilson <wilson.jim.r@gmail.com>, Eric Redmond <eric.redmond@gmail.com>"
+		message.body = """Dear Sirs:
 
-class FAQHandler( HandlerBase ):
-	""" Handles requests for the FAQ page. """
-	def get( self ):
-		options = self.get_options()
-		options["content"] = self.render( "faq", options )
-		self.response.out.write( self.render( "outer", options ) )
+Please perform the following task for %s <%s>
+
+%s""" % (ticket.name, str(ticket.email), ticket.description)
+		
+		message.send()
+		
+		return self.get()
 
 def main():
 	application = webapp.WSGIApplication([
 		('/', MainHandler),
-		('/checkout', CheckoutHandler),
 		('/faq', FAQHandler),
+		('/checkout', CheckoutHandler),
 	], debug=True)
 	wsgiref.handlers.CGIHandler().run(application)
 
