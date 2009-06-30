@@ -52,10 +52,3 @@ class HandlerBase( webapp.RequestHandler ):
 		"""
 		return template.render( self.template_path( name ), options )
 
-	def write_render( self, name, options={} ):
-		"""
-			Gets and renders a given named template and writes to the response.
-		"""
-		return self.response.out.write( self.render( name, options ) )
-
-
