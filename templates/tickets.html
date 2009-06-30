@@ -1,0 +1,14 @@
+<p>Current Tickets</p>
+<ul>
+{% for ticket in tickets %}
+{% ifchanged ticket.timestamp.date %}
+<li><div class="date">{{ ticket.timestamp.date }}</div></li>
+{% endifchanged %}
+<li>
+  <div class="time">{{ ticket.timestamp|date:"P" }}</div>
+  <div class="name">{{ ticket.name|escape }}</div>
+  <blockquote class="request">{{ ticket.request|escape }}</blockquote>
+</li>
+{% endfor %}
+</ul>
+

@@ -9,7 +9,7 @@ import wsgiref.handlers
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp, db
 from HandlerBase import HandlerBase
-import featureset
+from models.tickets import Tickets
 
 class MainHandler( HandlerBase ):
 	""" Handles requests for the main page. """
@@ -26,7 +26,13 @@ class CheckoutHandler( HandlerBase ):
 		options["content"] = self.render( "checkout", options )
 		options["tagline"] = "Checkout"
 		self.response.out.write( self.render( "outer", options ) )
+		
 	def post( self ):
+		email = self.request.get('email')
+		phone = self.request.get('phone')
+		name = self.request.get('name')
+		description = self.request.get('description')
+		Tickets(email=email, phone=phone, name=name, description=description).put()
 		return self.get()
 
 def main():

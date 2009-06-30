@@ -5,7 +5,7 @@
 import os, time
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
-import featureset
+from models import featureset
 
 class HandlerBase( webapp.RequestHandler ):
 	"""
@@ -51,5 +51,11 @@ class HandlerBase( webapp.RequestHandler ):
 			Gets and renders a given named template.
 		"""
 		return template.render( self.template_path( name ), options )
+
+	def write_render( self, name, options={} ):
+		"""
+			Gets and renders a given named template and writes to the response.
+		"""
+		return self.response.out.write( self.render( name, options ) )
 
 
