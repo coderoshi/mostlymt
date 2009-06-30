@@ -26,13 +26,10 @@ class CheckoutHandler( HandlerBase ):
 		options["content"] = self.render( "checkout", options )
 		options["tagline"] = "Checkout"
 		self.response.out.write( self.render( "outer", options ) )
-		
+
 	def post( self ):
-		email = self.request.get('email')
-		phone = self.request.get('phone')
-		name = self.request.get('name')
-		description = self.request.get('description')
-		Tickets(email=email, phone=phone, name=name, description=description).put()
+		ticket = self.create( Tickets, ('email', 'name', 'phone', 'description') )
+		ticket.put()
 		return self.get()
 
 def main():

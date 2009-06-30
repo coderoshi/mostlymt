@@ -17,9 +17,9 @@ class TicketsHandler( HandlerBase ):
 		""" Handles HTTP GET requests. """
 		tickets = Tickets.all().order('-timestamp').fetch(250)
 		options = self.get_options()
-		options["content"] = self.render( "tickets", options )
 		options["tickets"] = tickets
-		self.response.out.write( self.render( "outer", options ) )
+		options["content"] = self.render( "tickets", options )
+		self.response.out.write( self.render( "admin", options ) )
 
 def main():
 	application = webapp.WSGIApplication([

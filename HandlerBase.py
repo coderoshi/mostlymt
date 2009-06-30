@@ -52,3 +52,33 @@ class HandlerBase( webapp.RequestHandler ):
 		"""
 		return template.render( self.template_path( name ), options )
 
+
+	def create( self, klass, attrs ):
+		"""
+			Creates a new class instance of type klass, and populate 
+			attributes with names that match the attrs sequence (or list)
+			via self.set(...)
+			eg:
+			  food = self.create( Breakfast, ('spam', 'eggs') )
+		"""
+		obj = klass()
+		for attr in attrs:
+			self.set( obj, attr )
+		return obj
+
+	def set( self, obj, attr ):
+		"""
+			Takes an object and sets an attribute with the same name of a similar
+			self.request.get(...) field.
+			eg:
+			  self.set( food, 'rice' )
+			is equivalent to
+			  if self.request.get('rice'):
+			    food.rice = self.request.get('rice').strip()
+		"""
+		val = self.request.get(attr)
+		if val:
+			val = val.strip()
+			if hasattr( obj, attr ):
+				setattr( obj, attr, val )
+
