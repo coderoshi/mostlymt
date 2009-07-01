@@ -8,14 +8,14 @@ import os, yaml, random, time, uuid
 import wsgiref.handlers
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp, db
-from HandlerBase import HandlerBase
-from models.tickets import Tickets
+from handlers.HandlerBase import HandlerBase
+from models.ticket import Ticket
 
 class TicketsHandler( HandlerBase ):
 	""" Handles requests for the tickets page. """
 	def get( self ):
 		""" Handles HTTP GET requests. """
-		tickets = Tickets.all().order('-timestamp').fetch(250)
+		tickets = Ticket.all().order('-timestamp').fetch(250)
 		options = self.get_options()
 		options["tickets"] = tickets
 		options["content"] = self.render( "tickets", options )

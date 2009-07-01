@@ -2,33 +2,50 @@
 # HandlerBase.py
 # 
 
-import os, time
+import os, time, re
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
 from models import featureset
+from features import features
 
 class HandlerBase( webapp.RequestHandler ):
 	"""
 		Base class for microtasking handlers of all sorts.
 	"""
 
-	def get_featureset( self ):
+	def get_featureset( self, promo=None ):
 		"""
 			Grabs an appropriate featureset.
 		"""
+		# Short-circuit if a featureset has already been established
 		if hasattr( self, "fs" ): return getattr( self, "fs" )
-		fs = featureset.featureset(
-			self.request.params.get("key") or self.request.cookies.get("key")
-		)
+		allfeatures = features()
+		
+		# Parse out the first path segment and use it if it's a legit promo
+		m = re.compile("^/?([^/\\?]*)").findall( self.request.path )
+		path = m[0] or "default" if m and len(m) else None
+		promo = path if path in allfeatures else None
+		
+		# If the path doesn't indicate a promotion, check params and cookies
+		promo = promo or self.request.params.get("promo") or self.request.cookies.get("promo")
+		
+		# Retrieve featureset
+		key = self.request.params.get("key") or self.request.cookies.get("key")
+		fs = featureset.featureset( key, promo )
+		
+		# Set HTTP cookies to remember the key and promotion
 		self.set_cookie( "key", fs.key().id_or_name() )
+		if hasattr( fs, "promo" ): self.set_cookie( "promo", fs.promo )
+		
+		# Set local reference to featureset and return
 		setattr( self, "fs", fs )
 		return fs
 	
-	def get_options( self ):
+	def get_options( self, promo=None ):
 		"""
-			Returns a safely modifiable dictionary based on this handlers feature set.
+			Returns a safely modifiable dictionary based on the provided object.
 		"""
-		return self.get_featureset()._dynamic_properties.copy()
+		return self.get_featureset(promo)._dynamic_properties.copy()
 
 	def set_cookie( self, name, value ):
 		"""
@@ -44,7 +61,7 @@ class HandlerBase( webapp.RequestHandler ):
 		"""
 			Gets the full path to a template by its name.
 		"""
-		return os.path.join( os.path.dirname( __file__ ), 'templates/%s.html' % name )
+		return os.path.join( os.path.dirname( __file__ ), '..', 'templates', '%s.html' % name )
 
 	def render( self, name, options={} ):
 		"""

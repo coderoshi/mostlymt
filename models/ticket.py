@@ -1,6 +1,6 @@
 from google.appengine.ext import webapp, db
 
-class Tickets(db.Model):
+class Ticket( db.Model ):
 	email = db.EmailProperty()
 	phone = db.PhoneNumberProperty()
 	name = db.StringProperty()

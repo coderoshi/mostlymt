@@ -9,8 +9,8 @@ import wsgiref.handlers
 from google.appengine.ext.webapp import template
 from google.appengine.api import mail
 from google.appengine.ext import webapp, db
-from HandlerBase import HandlerBase
-from models.tickets import Tickets
+from handlers import HandlerBase
+from models.ticket import Ticket
 
 class MainHandler( HandlerBase ):
 	""" Handles requests for the main page. """
@@ -36,18 +36,18 @@ class CheckoutHandler( HandlerBase ):
 		self.response.out.write( self.render( "outer", options ) )
 
 	def post( self ):
-		ticket = self.create( Tickets, ('email', 'name', 'phone', 'description') )
+		fields = ('email', 'name', 'phone', 'description')
+		ticket = self.create( Ticket, fields )
 		ticket.put()
+		
+		options = {}
+		for field in fields: options[field] = getattr( ticket, field )
 		
 		message = mail.EmailMessage(sender="eric.redmond@gmail.com",
 		                            subject="Someone gave you a task")
 		
 		message.to = "Jim Wilson <wilson.jim.r@gmail.com>, Eric Redmond <eric.redmond@gmail.com>"
-		message.body = """Dear Sirs:
-
-Please perform the following task for %s <%s>
-
-%s""" % (ticket.name, str(ticket.email), ticket.description)
+		message.body = self.render( "messagebody", options )
 		
 		message.send()
 		
@@ -55,9 +55,9 @@ Please perform the following task for %s <%s>
 
 def main():
 	application = webapp.WSGIApplication([
-		('/', MainHandler),
 		('/faq', FAQHandler),
 		('/checkout', CheckoutHandler),
+		('/.*', MainHandler), # must be listed last since this regex matches anything
 	], debug=True)
 	wsgiref.handlers.CGIHandler().run(application)
 

@@ -1,0 +1,52 @@
+##
+# features.yaml
+# 
+# Defines features and the values and frequencies for those features.  If a given feature
+# has exactly one value, then that will always be used.  For this reason, features are also
+# immediately suitable for internationalization/localization purposes.
+#
+# This file also defines promotions - groupings of values which may differ from the default
+# values for a promotionless visitor.
+# 
+# IMPORTANT: Changes to this file will not automatically be picked up by AppEngine.  In
+# order to ensure that changes are applied, make sure at least one *.py file has changed.
+# 
+# NOTE: To test a particular value, simply comment out all other values and make sure to
+# make at least one change to an *.py file as explained above.
+##
+
+# Normal features if no promotion is in play
+default:
+
+  # Used to show different color schemes
+  stylesheet:
+    standard: 0.95
+    contender: 0.05
+
+  # Displayed in the title
+  tagline:
+    "We do stuff for you": 0.50
+    "Just microtask it!": 0.50
+
+  # How much per task
+  price: 11.99
+
+  # Monetary unit
+  currency: $
+  
+  # Promotion intro text
+  promo_intro: ""
+
+# Breast cancer awareness promotion
+pinkribbon:
+  stylesheet: pinkribbon
+  tagline:
+    "Support awareness": 0.50
+    "Yes we can!": 0.50
+  price: 12.99
+  promo_intro:
+    "Buy today and we'll donate 10% to Breast Cancer Awareness.": 0.25
+    "Buy today and we'll donate 10% to Breast Cancer Research.": 0.25
+    "Buy today and we'll donate 1$ to Breast Cancer Awareness.": 0.25
+    "Buy today and we'll donate 1$ to Breast Cancer Research.": 0.25
+
