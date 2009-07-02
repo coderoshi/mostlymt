@@ -8,5 +8,6 @@ body {
   background-position: top right;
   background-repeat: no-repeat;
   background-image: url("/images/pinkribbon.png");
+  *background-image: none; /* IE 6 - no png 32 transparency */
 }
 

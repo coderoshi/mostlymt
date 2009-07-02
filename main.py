@@ -36,19 +36,27 @@ class CheckoutHandler( HandlerBase ):
 		self.response.out.write( self.render( "outer", options ) )
 
 	def post( self ):
-		fields = ('email', 'name', 'phone', 'description')
+	
+		# TODO: Form checking
+
+		# Create ticket, pulling required fields from form data, tacking on feature values
+		fields = ( 'email', 'name', 'phone', 'description' )
 		ticket = self.create( Ticket, fields )
+		for k, v in self.get_options().iteritems():
+			if not hasattr( ticket, k ): setattr( ticket, k, v )
 		ticket.put()
-		
+
+		# Create options hash from ticket standard fields
 		options = {}
 		for field in fields: options[field] = getattr( ticket, field )
-		
-		message = mail.EmailMessage(sender="eric.redmond@gmail.com",
-		                            subject="Someone gave you a task")
-		
-		message.to = "Jim Wilson <wilson.jim.r@gmail.com>, Eric Redmond <eric.redmond@gmail.com>"
-		message.body = self.render( "messagebody", options )
-		
+
+		# Create and send email message
+		message = mail.EmailMessage(
+			sender="eric.redmond@gmail.com",
+            subject="Someone gave you a task",
+            to="Jim Wilson <wilson.jim.r@gmail.com>, Eric Redmond <eric.redmond@gmail.com>",
+            body=self.render( "messagebody", options )
+        )
 		message.send()
 		
 		return self.get()
