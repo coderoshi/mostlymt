@@ -7,19 +7,19 @@
 <form action="/gcheckout" method="post">
 <input type="hidden" name="promo" value="{{ promo }}" />
 <fieldset>
-<legend>Step 1: Describe your microtask</legend>
-<p class="hint">Hint: It should take about an hour or less to complete. <span class="small ideas"><a href="#ideas">need ideas?</a></span></p>
+<legend><span class="step">Step 1:</span> Describe your microtask</legend>
+<p class="hint">It should take about an hour or less to complete. <span class="small ideas"><a href="#ideas">need ideas?</a></span></p>
 <p><textarea name="description"></textarea></p>
 </fieldset>
 <fieldset>
-<legend>Step 2: Contact info</legend>
+<legend><span class="step">Step 2:</span> Contact info</legend>
 <p>In case we have any questions - your satisfaction is our top priority.</p>
-<p><label><strong>Name:</strong> <input name="name" /></label></p>
-<p><label><strong>Email:</strong> <input name="email" /></label></p>
-<p><label><strong>Phone:</strong> <input name="phone" /></label> <span class="small">(optional)</span></p>
+<p><label><strong>Name:</strong> <input type="text" name="name" /></label></p>
+<p><label><strong>Email:</strong> <input type="text" name="email" /></label></p>
+<p><label><strong>Phone:</strong> <input type="text" name="phone" /></label> <span class="small">(optional)</span></p>
 </fieldset>
 <fieldset>
-<legend>Step 3: Checkout</legend>
+<legend><span class="step">Step 3:</span> Checkout</legend>
 <p>Proceed to the checkout for payment options.</p>
 <p><input class="button" type="submit" value="Checkout &rarr;" /></p>
 </fieldset>

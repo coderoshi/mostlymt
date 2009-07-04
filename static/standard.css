@@ -1,4 +1,63 @@
 /**
  * standard.css
  */
-
+body {
+  background-color:#FFFFFF;
+  background:url('images/background.png') repeat-x;
+}
+dl {
+  color:#666666;
+}
+textarea {
+  border:1px solid #999999;
+  width:580px;
+  background-color:#FFDD99;
+}
+input[type=text] {
+  border:1px solid #666666;
+  background-color:#FFDD99;
+}
+input[type=submit] {
+  border:1px solid #666666;
+}
+div.wrapper {
+  border:3px solid #999999;
+  margin-top:34px;
+}
+h1.title {
+  position:absolute;
+  top:0px;
+  width:560px;
+  height:50px;
+  background:url('images/title.png') no-repeat 20px top;
+}
+h1.title a {
+  width:550px;
+  height:50px;
+}
+h1.title a span {
+  display:none;
+}
+fieldset {
+  border:0px;
+  padding:0px;
+}
+fieldset legend {
+  font-weight:normal;
+}
+fieldset legend span.step {
+  color:#FF6600;
+  font-weight:bold;
+}
+h3#pricing {
+  color:#FF3300;
+}
+h3#ideas {
+  color:#FF3300;
+}
+.hint {
+  color:#666666;
+  font-style:italic;
+  padding-left:46px;
+  background:url('images/hint.png') no-repeat 8px center;
+}
