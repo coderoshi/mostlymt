@@ -6,17 +6,23 @@
 </dl>
 <form action="/gcheckout" method="post">
 <input type="hidden" name="promo" value="{{ promo }}" />
-<h3>Step 1 - Describe your microtask</h3>
+<fieldset>
+<legend>Step 1: Describe your microtask</legend>
 <p class="hint">Hint: It should take about an hour or less to complete. <span class="small ideas"><a href="#ideas">need ideas?</a></span></p>
 <p><textarea name="description"></textarea></p>
-<h3>Step 2 - Contact info</h3>
+</fieldset>
+<fieldset>
+<legend>Step 2: Contact info</legend>
 <p>In case we have any questions - your satisfaction is our top priority.</p>
 <p><label><strong>Name:</strong> <input name="name" /></label></p>
 <p><label><strong>Email:</strong> <input name="email" /></label></p>
 <p><label><strong>Phone:</strong> <input name="phone" /></label> <span class="small">(optional)</span></p>
-<h3>Step 3 - Checkout</h3>
+</fieldset>
+<fieldset>
+<legend>Step 3: Checkout</legend>
 <p>Proceed to the checkout for payment options.</p>
 <p><input class="button" type="submit" value="Checkout &rarr;" /></p>
+</fieldset>
 </form>
 <h3 id="pricing">Pricing</h3>
 <p>Tasks up to 1 hour cost {{ currency }}{{ price }} to complete.  If additional time is needed to complete the task, we'll email you first.</p>
