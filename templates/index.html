@@ -4,7 +4,7 @@
 </dl>
 <p id="intro">Give us a <strong>microtask</strong>, and we'll take care of it for <strong>{{ currency }}{{ price }}</strong> <span class="small info"><a href="#pricing">more info?</a></span></p>
 {% if promo_intro %}<p>{{ promo_intro }}</p>{% endif %}
-<form action="/gcheckout" method="post">
+<form action="/checkout" method="post">
 <input type="hidden" name="promo" value="{{ promo }}" />
 <fieldset>
 <legend><span class="step">Step 1:</span> Describe your microtask</legend>

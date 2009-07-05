@@ -19,7 +19,7 @@ handlers:
   upload: static/robots.txt
   
 - url: /tickets.*
-  script: tickets.py
+  script: admin.py
   login: admin
 
 - url: .*
