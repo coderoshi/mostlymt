@@ -2,26 +2,32 @@
  * standard.css
  */
 body {
-  background-color:#FFFFFF;
   background:url('images/background.png') repeat-x;
+  background-color:#EEF1F5;
 }
 dl {
   color:#666666;
 }
 textarea {
-  border:1px solid #999999;
+  border:1px solid #455772;
   width:580px;
+  background-color:#EEF1F5;
+}
+textarea:hover, textarea:focus {
   background-color:#FFDD99;
 }
 input[type=text] {
   border:1px solid #666666;
-  background-color:#FFDD99;
+  background-color:#EEF1F5;
 }
 input[type=submit] {
-  border:1px solid #666666;
+  border:1px solid #455772;
+}
+input:hover, input:focus {
+  background-color:#FFDD99;
 }
 div.wrapper {
-  border:3px solid #999999;
+  border:3px solid #455772;
   margin-top:34px;
 }
 h1.title {
@@ -43,17 +49,45 @@ fieldset {
   padding:0px;
 }
 fieldset legend {
+  font-size:150%;
+  font-style:italic;
   font-weight:normal;
 }
 fieldset legend span.step {
   color:#FF6600;
+  font-style:normal;
   font-weight:bold;
 }
-h3#pricing {
+#ideas,
+#pricing {
+  display:none;
+}
+#ideas h3,
+#pricing h3 {
   color:#FF3300;
 }
-h3#ideas {
+#intro {
+  border:3px double #455772;
+  background:#EEF1F5;
+  padding:10px;
+  text-align:center;
+  margin-left:-1.6em;
+  margin-right:-1.6em;
+  margin-bottom:1em;
+  font-size:125%;
+  color:#455772;
+}
+#intro strong {
   color:#FF3300;
+  font-style:italic;
+}
+#intro .small {
+  font-size:50%;
+}
+#intro .info {
+  display:block;
+  float:right;
+  padding-top:6px;
 }
 .hint {
   color:#666666;

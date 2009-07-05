@@ -1,9 +1,9 @@
-<p>Give us a microtask, and we'll take care of it for <strong>{{ currency }}{{ price }}</strong>. <span class="small info"><a href="#pricing">more info?</a></span></p>
-{% if promo_intro %}<p>{{ promo_intro }}</p>{% endif %}
 <dl>
 <dt>microtask:</dt>
 <dd><em>n.</em> A simple task that someone else could do for you remotely.</dd>
 </dl>
+<p id="intro">Give us a <strong>microtask</strong>, and we'll take care of it for <strong>{{ currency }}{{ price }}</strong> <span class="small info"><a href="#pricing">more info?</a></span></p>
+{% if promo_intro %}<p>{{ promo_intro }}</p>{% endif %}
 <form action="/gcheckout" method="post">
 <input type="hidden" name="promo" value="{{ promo }}" />
 <fieldset>
@@ -24,12 +24,16 @@
 <p><input class="button" type="submit" value="Checkout &rarr;" /></p>
 </fieldset>
 </form>
-<h3 id="pricing">Pricing</h3>
+<div id="pricing">
+<h3>Pricing</h3>
 <p>Tasks up to 1 hour cost {{ currency }}{{ price }} to complete.  If additional time is needed to complete the task, we'll email you first.</p>
-<h3 id="ideas">Ideas</h3>
+</div>
+<div id="ideas">
+<h3>Ideas</h3>
 <ul>
 <li>Send someone some flowers.</li>
 <li>Gather information on a subject.</li>
 <li>Find me a local business that does housecleaning.</li>
 </ul>
+</div>
 <p>Do you have more questions? Check out the <a href="/faq">FAQ</a></p>
