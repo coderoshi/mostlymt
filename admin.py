@@ -18,8 +18,8 @@ class TicketsHandler( HandlerBase ):
 		tickets = Ticket.all().order('-timestamp').fetch(250)
 		options = self.get_options()
 		options["tickets"] = tickets
-		options["content"] = self.render( "tickets", options )
-		self.response.out.write( self.render( "admin", options ) )
+		options["content"] = self.render( "tickets.html", options )
+		self.response.out.write( self.render( "admin.html", options ) )
 
 def main():
 	application = webapp.WSGIApplication([

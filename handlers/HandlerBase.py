@@ -61,7 +61,7 @@ class HandlerBase( webapp.RequestHandler ):
 		"""
 			Gets the full path to a template by its name.
 		"""
-		return os.path.join( os.path.dirname( __file__ ), '..', 'templates', '%s.html' % name )
+		return os.path.join( os.path.dirname( __file__ ), '..', 'templates', name )
 
 	def render( self, name, options={} ):
 		"""

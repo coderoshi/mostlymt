@@ -20,15 +20,15 @@ class MainHandler( HandlerBase ):
 	def get( self ):
 		""" Handles HTTP GET requests. """
 		options = self.get_options()
-		options["content"] = self.render( "index", options )
-		self.response.out.write( self.render( "outer", options ) )
+		options["content"] = self.render( "index.html", options )
+		self.response.out.write( self.render( "outer.html", options ) )
 
 class FAQHandler( HandlerBase ):
 	""" Handles requests for the FAQ page. """
 	def get( self ):
 		options = self.get_options()
-		options["content"] = self.render( "faq", options )
-		self.response.out.write( self.render( "outer", options ) )
+		options["content"] = self.render( "faq.html", options )
+		self.response.out.write( self.render( "outer.html", options ) )
 
 class GPayNotifyHandler( HandlerBase ):
   """ Handles google checkout callback """
@@ -59,7 +59,7 @@ class GPayNotifyHandler( HandlerBase ):
           sender="eric.redmond@gmail.com",
                 subject="Someone gave you a task",
                 to="Jim Wilson <wilson.jim.r@gmail.com>, Eric Redmond <eric.redmond@gmail.com>",
-                body=self.render( "messagebody", options )
+                body=self.render( "messagebody.txt", options )
             )
         message.send()
       else:
@@ -72,9 +72,9 @@ class CheckoutHandler( HandlerBase ):
   """ Handles requests for the checkout page. """
   def get( self ):
     options = self.get_options()
-    options["content"] = self.render( "checkout", options )
+    options["content"] = self.render( "checkout.html", options )
     options["tagline"] = "Checkout"
-    self.response.out.write( self.render( "outer", options ) )
+    self.response.out.write( self.render( "outer.html", options ) )
   
   def post(self):
     hours = '1'
