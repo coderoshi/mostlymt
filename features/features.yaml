@@ -36,6 +36,13 @@ default:
   
   # Promotion intro text
   promo_intro: ""
+  
+  # Error strings
+  email_invalid: "Invalid email address"
+  email_required: "Email address required"
+  name_required: "Name required"
+  description_too_short: "Description too short - please be as specific as possible."
+  please_check: "Please double check your info provided below, then re-submit.  Thanks!"
 
 # Breast cancer awareness promotion
 pinkribbon:

@@ -45,7 +45,10 @@ class HandlerBase( webapp.RequestHandler ):
 		"""
 			Returns a safely modifiable dictionary based on the provided object.
 		"""
-		return self.get_featureset(promo)._dynamic_properties.copy()
+		options = self.get_featureset(promo)._dynamic_properties.copy()
+		if not hasattr( self, "data_options" ) or not isinstance( self.data_options, dict ): return options
+		for k, v in self.data_options.iteritems(): options[k] = v
+		return options
 
 	def set_cookie( self, name, value ):
 		"""
@@ -55,13 +58,13 @@ class HandlerBase( webapp.RequestHandler ):
 		expires = time.time() + 60 * 60 * 24 * 365 * 10 # 10 years from today
 		format = time.strftime( "%a, %d-%b-%Y 23:59:59 GMT", time.gmtime( expires ) )
 		cookie = "%s=%s; expires=%s; path=/" % ( name, value, format )
-		self.response.headers["Set-Cookie"] = str( cookie )
+		self.response.headers.add_header( "Set-Cookie", str( cookie ) )
 
 	def template_path( self, name ):
 		"""
 			Gets the full path to a template by its name.
 		"""
-		return os.path.join( os.path.dirname( __file__ ), '..', 'templates', '%s.html' % name )
+		return os.path.join( os.path.dirname( __file__ ), '..', 'templates', name )
 
 	def render( self, name, options={} ):
 		"""
