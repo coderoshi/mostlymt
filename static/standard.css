@@ -68,6 +68,7 @@ fieldset legend span.step {
 }
 #intro {
   border:3px double #455772;
+  border-bottom:3px solid #455772;
   background:#EEF1F5;
   padding:10px;
   text-align:center;
@@ -76,6 +77,8 @@ fieldset legend span.step {
   margin-bottom:1em;
   font-size:125%;
   color:#455772;
+  /*position:absolute;*/
+  margin-top:31px;
 }
 #intro strong {
   color:#FF3300;
