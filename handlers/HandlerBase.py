@@ -45,7 +45,10 @@ class HandlerBase( webapp.RequestHandler ):
 		"""
 			Returns a safely modifiable dictionary based on the provided object.
 		"""
-		return self.get_featureset(promo)._dynamic_properties.copy()
+		options = self.get_featureset(promo)._dynamic_properties.copy()
+		if not hasattr( self, "options" ) or not isinstance( self.options, dict ): return options
+		for k, v in self.options.iteritems(): options[k] = v
+		return options
 
 	def set_cookie( self, name, value ):
 		"""

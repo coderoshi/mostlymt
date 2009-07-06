@@ -4,7 +4,7 @@
 # Copy pasta:
 # import time
 
-import os, yaml, random, time, uuid, logging, base64
+import os, yaml, random, time, uuid, logging, base64, re
 import wsgiref.handlers
 from google.appengine.ext.webapp import template
 from google.appengine.api import mail, urlfetch
@@ -77,9 +77,44 @@ class CheckoutHandler( HandlerBase ):
 	self.response.out.write( self.render( "outer.html", options ) )
   
   def post(self):
-  
+
+	# Grab options
   	options = self.get_options()
   
+  	# Form validation
+	fields = ( 'email', 'name', 'phone', 'description' )
+	any_errors = False
+  	data = {}
+  	for field in fields: data[field] = self.request.get( field ) or ""
+  	
+  	# Check email
+  	if data["email"]:
+	  	pattern = re.compile( "^\\s*[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\\s*$", re.I )
+	  	if not pattern.match( data["email"] ):
+	  		any_errors = True
+	  		data["email_error"] = options["email_invalid"]
+	else:
+		any_errors = True
+		data["email_error"] = options["email_required"]
+  		
+  	# Check name
+  	if not data["name"]:
+  		any_errors = True
+  		data["name_error"] = options["name_required"]
+  	
+  	# Check description
+  	if not data["description"] or len(data["description"]) < 20:
+  		any_errors = True
+  		data["description_error"] = options["description_too_short"]
+  		
+  	# If any data didn't validate, send them back through the MainHandler
+  	if any_errors:
+  		data["validation_error"] = options["please_check"]
+	  	handler = MainHandler()
+	  	handler.initialize( self.request, self.response )
+	  	handler.options = data
+	  	return handler.get()
+	  	
 	hours = '1'
 	item_name = "%s Hour" % hours
 	item_desc = "A microtask of %s hours time" % hours
@@ -88,7 +123,6 @@ class CheckoutHandler( HandlerBase ):
 	return_url = "%s/%s" % ( base_url, options["promo"] or "" )
 	
 	# This is a PENDING ticket. Does not become 'active' until CC is Authorized
-	fields = ( 'email', 'name', 'phone', 'description' )
 	ticket = self.create( Ticket, fields )
 	ticket.put()
 	

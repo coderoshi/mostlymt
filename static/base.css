@@ -117,5 +117,8 @@ label strong {
 label input {
   width: 70%;
 }
-
+.validation-error {
+  color: #c00;
+  font-style: italic;
+}
 
