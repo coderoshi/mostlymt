@@ -55,7 +55,7 @@ class HandlerBase( webapp.RequestHandler ):
 		expires = time.time() + 60 * 60 * 24 * 365 * 10 # 10 years from today
 		format = time.strftime( "%a, %d-%b-%Y 23:59:59 GMT", time.gmtime( expires ) )
 		cookie = "%s=%s; expires=%s; path=/" % ( name, value, format )
-		self.response.headers["Set-Cookie"] = str( cookie )
+		self.response.headers.add_header( "Set-Cookie", str( cookie ) )
 
 	def template_path( self, name ):
 		"""
