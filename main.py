@@ -112,7 +112,7 @@ class CheckoutHandler( HandlerBase ):
   		data["validation_error"] = options["please_check"]
 	  	handler = MainHandler()
 	  	handler.initialize( self.request, self.response )
-	  	handler.options = data
+	  	handler.data_options = data
 	  	return handler.get()
 	  	
 	hours = '1'
