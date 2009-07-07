@@ -28,9 +28,13 @@ class GoogleNotified(object):
       # purchase.order_number = self.order_number
       
       sc_el = first_el(non_el, 'shopping-cart')
+      
       item_el = first_el(sc_el, 'item')
       self.item_name = first_el_val(item_el, 'item-name')
       self.unit_price = first_el_val(item_el, 'unit-price')
+      
+      mpd_el = first_el(sc_el, 'merchant-private-data')
+      self.ticket_key = first_el_val(mpd_el, 'ticket-key')
       
       # purchase.tokens = tokens
       # purchase.save()

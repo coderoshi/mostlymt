@@ -3,3 +3,5 @@ Dear Sirs:
 Please perform the following task for {{ name }} <{{ email }}>
 
 {{ description }}
+
+This task must take no more than 1 hour to complete.

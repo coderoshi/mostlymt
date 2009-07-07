@@ -11,19 +11,21 @@ class Google(object):
     Google Checkout utility
   """
   
-  def __init__(self, name, desc, price, return_url):
+  def __init__( self, name, desc, price, return_url, key ):
     self.name = name
     self.desc = desc
     self.price = price
     self.return_url = return_url
+    self.key = str(key)
   
-  def fetch(self, username, password, url):
+  def fetch( self, username, password, url ):
     basicauth = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
     result = urlfetch.fetch(url=url,
                            payload=self.payload(),
                            method=urlfetch.POST,
                            headers={'Authorization': 'Basic %s' % basicauth})
     self.return_content = result.content
+    logging.debug(self.return_content)
     return self.return_content
   
   def get_redirect_url( self ):
@@ -38,7 +40,7 @@ class Google(object):
       
     return None
   
-  def payload(self):
+  def payload( self ):
     return '''<?xml version="1.0" encoding="UTF-8"?>
     <checkout-shopping-cart xmlns="http://checkout.google.com/schema/2">
       <shopping-cart>
@@ -58,10 +60,8 @@ class Google(object):
             </digital-content>
           </item>
         </items>
+        <merchant-private-data><ticket-key>%s</ticket-key></merchant-private-data>
       </shopping-cart>
-      <checkout-flow-support>
-        <merchant-checkout-flow-support/>
-      </checkout-flow-support>
-    </checkout-shopping-cart>''' % (self.name, self.desc, self.price, self.return_url)
+    </checkout-shopping-cart>''' % (self.name, self.desc, self.price, self.return_url, self.key)
   
   

@@ -43,11 +43,20 @@ class GPayNotifyHandler( HandlerBase ):
 	
 	# TODO: save more purchase notification data to ticket
 	
-	if checkout_gn.new_purchase:
+	if checkout_gn.new_purchase and checkout_gn.ticket_key:
 	  
-	  ticket = Ticket.all().filter('email =', checkout_gn.email).order('-timestamp').fetch(1)
-	  if ticket:
-		ticket = ticket[0]
+    #     ticket = Ticket.all().filter('email =', checkout_gn.email).order('-timestamp').fetch(1)
+    #     if ticket:
+    # ticket = ticket[0]
+		logging.debug( checkout_gn.ticket_key )
+		ticket = db.get( db.Key( checkout_gn.ticket_key ) )
+		
+		# TODO: fail ticket if it isn't found - attempt to send error email to checkout_gn.email?
+		if not ticket:
+			logging.error('No idea what to do here... ticket not found for email \'%s\'' % checkout_gn.email)
+			# 502?
+			self.response.out.write('')
+			return
 		
 		# Create options hash from ticket standard fields
 		fields = ( 'email', 'name', 'phone', 'description' )
@@ -58,11 +67,12 @@ class GPayNotifyHandler( HandlerBase ):
 		message = mail.EmailMessage(
 		  sender="eric.redmond@gmail.com",
 				subject="Someone gave you a task",
-				to="Jim Wilson <wilson.jim.r@gmail.com>, Eric Redmond <eric.redmond@gmail.com>",
+        # to="Jim Wilson <wilson.jim.r@gmail.com>, Eric Redmond <eric.redmond@gmail.com>",
+				to="Eric Redmond <eric.redmond@gmail.com>",
 				body=self.render( "messagebody.txt", options )
 			)
 		message.send()
-	  else:
+	else:
 		logging.error('No idea what to do here... email \'%s\' doesn\'t match active ticket' % checkout_gn.email)
 	
 	self.response.out.write('')
@@ -126,7 +136,7 @@ class CheckoutHandler( HandlerBase ):
 	ticket = self.create( Ticket, fields )
 	ticket.put()
 	
-	google_co = checkout.Google(item_name, item_desc, unit_price, return_url)
+	google_co = checkout.Google( item_name, item_desc, unit_price, return_url, ticket.key() )
 	url = 'https://sandbox.google.com/checkout/api/checkout/v2/merchantCheckout/Merchant/875093275712045'
 	google_co.fetch('875093275712045','qNztxsdPtwA9f_dICQmjhg', url)
 	redirect_url = google_co.get_redirect_url()
