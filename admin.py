@@ -21,7 +21,7 @@ class TicketsHandler( HandlerBase ):
 		active_tickets = query.fetch(250)
 		
 		query = Ticket.all()
-		query.filter('financial_order_state !=', 'REVIEWING')
+		query.filter('financial_order_state !=', 'CHARGEABLE')
 		query.order('-financial_order_state')
 		reviewing_tickets = query.fetch(250)
 		
@@ -33,7 +33,7 @@ class TicketsHandler( HandlerBase ):
 
 def main():
 	application = webapp.WSGIApplication([
-		('/admin', TicketsHandler),
+		('/admin/tickets', TicketsHandler),
 	], debug=True)
 	wsgiref.handlers.CGIHandler().run(application)
 

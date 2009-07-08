@@ -22,4 +22,9 @@ indexes:
   properties:
   - name: financial_order_state
   - name: timestamp
+
+- kind: Ticket
+  properties:
+  - name: financial_order_state
+  - name: timestamp
     direction: desc
