@@ -58,12 +58,7 @@ fieldset legend span.step {
   font-style:normal;
   font-weight:bold;
 }
-#ideas,
-#pricing {
-  display:none;
-}
-#ideas h3,
-#pricing h3 {
+h3 {
   color:#FF3300;
 }
 #intro {
@@ -98,3 +93,7 @@ fieldset legend span.step {
   padding-left:46px;
   background:url('images/hint.png') no-repeat 8px center;
 }
+.popup {
+  border: 3px ridge #ccc;
+}
+

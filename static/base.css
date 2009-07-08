@@ -121,4 +121,15 @@ label input {
   color: #c00;
   font-style: italic;
 }
+.popup {
+  position: absolute;
+  background: white;
+  padding: 9px;
+  width: 400px;
+  border: 1px solid black;
+}
+.popup .close {
+  display: block;
+  float: right;
+}
 
