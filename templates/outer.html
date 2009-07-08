@@ -42,6 +42,7 @@ pageTracker._trackPageview();
 	for (var i=0, l=links.length; i<l; i++) {
 		var a = links[i];
 		if (!a.href || a.href.indexOf(href) !== 0) continue;
+		if (!(/(^|\s)pop(\s|$)/).test(a.className)) continue;
 		var pos = a.href.indexOf('#'), id = a.href.substring(pos + 1);
 		if (pos !== href.length || !id) continue;
 		(function(elem){
@@ -55,8 +56,11 @@ pageTracker._trackPageview();
 					if (node.nodeType === 1 && node !== close) node.style.display = "none";
 				}
 				elem.style.display = popup.style.display = "";
-				var doc = document.documentElement;
-				popup.style.top = (doc.clientHeight - popup.offsetHeight) / 2 + "px";
+				var
+					doc = document.documentElement,
+					viewportH = window.innerHeight || doc.clientHeight,
+					top = document.body.scrollTop || doc.scrollTop;
+				popup.style.top = (viewportH - popup.offsetHeight) / 2 + top + "px";
 				popup.style.left = (doc.clientWidth - popup.offsetWidth) / 2 + "px";
 				return false;
 			};
