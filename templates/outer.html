@@ -13,6 +13,45 @@
 <h1 class="title"><a href=""><span>Microtasking</span></a></h1>
 {{ content }}
 </div>
+<div id="popup" class="popup" style="display:none">
+<a href="" class="close"><span>close</span></a>
+</div>
+<script type="text/javascript">
+(function(){
+	var
+		href = document.location.href,
+		links = document.getElementsByTagName('a'),
+		popup = document.getElementById('popup'),
+		close = popup.getElementsByTagName('a')[0];
+	close.onclick = function(){
+		popup.style.display = "none";
+		return false;
+	};
+	for (var i=0, l=links.length; i<l; i++) {
+		var a = links[i];
+		if (!a.href || a.href.indexOf(href) !== 0) continue;
+		var pos = a.href.indexOf('#'), id = a.href.substring(pos + 1);
+		if (pos !== href.length || !id) continue;
+		(function(elem){
+			if (!elem) return;
+			elem.style.display = "none";
+			popup.appendChild(elem);
+			a.href = "";
+			a.onclick = function(){
+				for (var i=0, l=popup.childNodes.length; i<l; i++) {
+					var node = popup.childNodes[i];
+					if (node.nodeType === 1 && node !== close) node.style.display = "none";
+				}
+				elem.style.display = popup.style.display = "";
+				var doc = document.documentElement;
+				popup.style.top = (doc.clientHeight - popup.offsetHeight) / 2 + "px";
+				popup.style.left = (doc.clientWidth - popup.offsetWidth) / 2 + "px";
+				return false;
+			};
+		})(document.getElementById(id));
+	}
+})();
+</script>
 </body>
 </html>
 
