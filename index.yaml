@@ -17,12 +17,6 @@ indexes:
   - name: timestamp
     direction: desc
 
-# Unused in query history -- copied from input.
-- kind: Ticket
-  properties:
-  - name: financial_order_state
-  - name: timestamp
-
 # Used 13 times in query history.
 - kind: Ticket
   properties:
