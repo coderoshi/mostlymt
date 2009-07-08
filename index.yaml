@@ -16,3 +16,10 @@ indexes:
   - name: email
   - name: timestamp
     direction: desc
+
+# Used 12 times in query history.
+- kind: Ticket
+  properties:
+  - name: financial_order_state
+  - name: timestamp
+    direction: desc

@@ -14,13 +14,43 @@ class GoogleNotified(object):
     
     notif_dom = dom(body)
     
+    self.new_purchase = False
+    
     non_el = first_el(notif_dom, 'new-order-notification')
     if non_el:
       self.buyer_id = first_el_val(non_el, 'buyer-id')
       self.order_number = first_el_val(non_el, 'google-order-number')
+      self.financial_order_state = first_el_val(non_el, 'financial-order-state')
+      self.email_allowed = True
+      if first_el_val(non_el, 'email-allowed') == 'false': self.email_allowed = False
       
       bba_el = first_el(non_el, 'buyer-billing-address')
-      self.email = first_el_val(bba_el, 'email')  # get the user who made this purchase
+      self.billing = False
+      if bba_el:
+        self.billing = True
+        self.billing_email = first_el_val(bba_el, 'email')
+        self.billing_address_1 = first_el_val(bba_el, 'address1')
+        self.billing_address_2 = first_el_val(bba_el, 'address2')
+        self.billing_first_name = first_el_val(bba_el, 'first-name')
+        self.billing_last_name = first_el_val(bba_el, 'last-name')
+        self.billing_country_code = first_el_val(bba_el, 'country-code')
+        self.billing_city = first_el_val(bba_el, 'city')
+        self.billing_region = first_el_val(bba_el, 'region')
+        self.billing_postal_code = first_el_val(bba_el, 'postal-code')
+      
+      bsa_el = first_el(non_el, 'buyer-shipping-address')
+      self.shipping = False
+      if bsa_el:
+        self.shipping = True
+        self.shipping_email = first_el_val(bsa_el, 'email')
+        self.shipping_address_1 = first_el_val(bsa_el, 'address1')
+        self.shipping_address_2 = first_el_val(bsa_el, 'address2')
+        self.shipping_first_name = first_el_val(bsa_el, 'first-name')
+        self.shipping_last_name = first_el_val(bsa_el, 'last-name')
+        self.shipping_country_code = first_el_val(bsa_el, 'country-code')
+        self.shipping_city = first_el_val(bsa_el, 'city')
+        self.shipping_region = first_el_val(bsa_el, 'region')
+        self.shipping_postal_code = first_el_val(bsa_el, 'postal-code')
       
       # account = get_account_by_user(email)
       # 
@@ -32,42 +62,26 @@ class GoogleNotified(object):
       item_el = first_el(sc_el, 'item')
       self.item_name = first_el_val(item_el, 'item-name')
       self.unit_price = first_el_val(item_el, 'unit-price')
+      try:
+        self.hours = int(first_el_val(item_el, 'quantity'))
+      except ValueError:
+        self.hours = 1
       
       mpd_el = first_el(sc_el, 'merchant-private-data')
       self.ticket_key = first_el_val(mpd_el, 'ticket-key')
       
       # purchase.tokens = tokens
       # purchase.save()
-      
-      logging.debug('Save Purchases')
+      # logging.debug('Save Purchases')
       
       self.new_purchase = True
     else:
       self.new_purchase = False
-    #   oscn_el = first_el(notif_dom, 'order-state-change-notification')
-    #   self.order_number = first_el_val(oscn_el, 'google-order-number')
-    #   self.new_financial_order_state = first_el_val(oscn_el, 'new-financial-order-state')
-    #   if self.new_financial_order_state == 'CHARGED':
-    #     # set charged == True
-    #     # query = Purchase.all()
-    #     # query.filter('order_number =', self.order_number)
-    #     # purchase = query.fetch(1)
-    #     # if purchase:
-    #     #   purchase = purchase[0]
-    #     # else:
-    #     #   #throw some exception?
-    #     #   # TODO: Make a new purchase if not exists - set status to PURCHASE_CHARGED_UNSET ?
-    #     #   logging.error('Trying to charge an unmade purchase')
-    #     #   return
-    #     #
-    #     # # no need to make a change if tokens already added
-    #     # if purchase.order_state == PURCHASE_CHARGED:
-    #     #   self.response.out.write('')
-    #     #   return
-    #     # 
-    #     # purchase.order_state = PURCHASE_CHARGED
-    #     # purchase.account.total_tokens += purchase.tokens
-    #     # purchase.account.save()
-    #     # purchase.save()
-    #     #
-    #     logging.debug('Purchase Charged')
+      oscn_el = first_el(notif_dom, 'order-state-change-notification')
+      
+      self.new_financial_order_state = None
+      if oscn_el:
+        self.order_number = first_el_val(oscn_el, 'google-order-number')
+        self.new_financial_order_state = first_el_val(oscn_el, 'new-financial-order-state')
+      
+    

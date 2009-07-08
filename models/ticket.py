@@ -1,8 +1,33 @@
 from google.appengine.ext import webapp, db
 
-class Ticket( db.Expando ):
+class Ticket( db.Model ):
 	email = db.EmailProperty()
 	phone = db.PhoneNumberProperty()
 	name = db.StringProperty()
 	description = db.TextProperty()
+	hours = db.IntegerProperty(default=1)
 	timestamp = db.DateTimeProperty(auto_now_add=True)
+	google_order_number = db.StringProperty()
+	google_buyer_id = db.StringProperty()
+	email_allowed = db.BooleanProperty(default=True)
+	financial_order_state = db.StringProperty()
+	billing_email = db.EmailProperty()
+	billing_first_name = db.StringProperty()
+	billing_last_name = db.StringProperty()
+	billing_address_1 = db.StringProperty()
+	billing_address_2 = db.StringProperty()
+	billing_city = db.StringProperty()
+	billing_region = db.StringProperty()
+	billing_postal_code = db.StringProperty()
+	billing_country_code = db.StringProperty()
+	shipping_email = db.EmailProperty()
+	shipping_first_name = db.StringProperty()
+	shipping_last_name = db.StringProperty()
+	shipping_address_1 = db.StringProperty()
+	shipping_address_2 = db.StringProperty()
+	shipping_city = db.StringProperty()
+	shipping_region = db.StringProperty()
+	shipping_postal_code = db.StringProperty()
+	shipping_country_code = db.StringProperty()
+	
+	

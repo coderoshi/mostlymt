@@ -12,8 +12,8 @@ from google.appengine.ext import webapp, db
 from handlers import HandlerBase
 from models.ticket import Ticket
 from xml.dom import minidom
-
 import checkout
+from settings import *
 
 class MainHandler( HandlerBase ):
 	""" Handles requests for the main page. """
@@ -41,14 +41,8 @@ class GPayNotifyHandler( HandlerBase ):
 	  return
 	checkout_gn.parse(self.request.body)
 	
-	# TODO: save more purchase notification data to ticket
+	if checkout_gn.new_purchase:
 	
-	if checkout_gn.new_purchase and checkout_gn.ticket_key:
-	  
-    #     ticket = Ticket.all().filter('email =', checkout_gn.email).order('-timestamp').fetch(1)
-    #     if ticket:
-    # ticket = ticket[0]
-		logging.debug( checkout_gn.ticket_key )
 		ticket = db.get( db.Key( checkout_gn.ticket_key ) )
 		
 		# TODO: fail ticket if it isn't found - attempt to send error email to checkout_gn.email?
@@ -57,24 +51,61 @@ class GPayNotifyHandler( HandlerBase ):
 			# 502?
 			self.response.out.write('')
 			return
+			
+		ticket.google_order_number = checkout_gn.order_number
+		ticket.google_buyer_id = checkout_gn.buyer_id
+		ticket.email_allowed = checkout_gn.email_allowed
+		ticket.financial_order_state = checkout_gn.financial_order_state
+		ticket.hours = checkout_gn.hours
+
+		if checkout_gn.billing:
+			ticket.billing_email = checkout_gn.billing_email
+			ticket.billing_first_name = checkout_gn.billing_first_name
+			ticket.billing_last_name = checkout_gn.billing_last_name
+			ticket.billing_address_1 = checkout_gn.billing_address_1
+			ticket.billing_address_2 = checkout_gn.billing_address_2
+			ticket.billing_city = checkout_gn.billing_city
+			ticket.billing_region = checkout_gn.billing_region
+			ticket.billing_postal_code = checkout_gn.billing_postal_code
+			ticket.billing_country_code = checkout_gn.billing_country_code
+
+		if checkout_gn.shipping:
+			ticket.shipping_email = checkout_gn.shipping_email
+			ticket.shipping_first_name = checkout_gn.shipping_first_name
+			ticket.shipping_last_name = checkout_gn.shipping_last_name
+			ticket.shipping_address_1 = checkout_gn.shipping_address_1
+			ticket.shipping_address_2 = checkout_gn.shipping_address_2
+			ticket.shipping_city = checkout_gn.shipping_city
+			ticket.shipping_region = checkout_gn.shipping_region
+			ticket.shipping_postal_code = checkout_gn.shipping_postal_code
+			ticket.shipping_country_code = checkout_gn.shipping_country_code
+			
+		ticket.put()
 		
 		# Create options hash from ticket standard fields
-		fields = ( 'email', 'name', 'phone', 'description' )
+		fields = ( 'email', 'name', 'phone', 'description', 'hours' )
 		options = {}
 		for field in fields: options[field] = getattr( ticket, field )
 		
 		# Create and send email message
 		message = mail.EmailMessage(
-		  sender="eric.redmond@gmail.com",
-				subject="Someone gave you a task",
-        # to="Jim Wilson <wilson.jim.r@gmail.com>, Eric Redmond <eric.redmond@gmail.com>",
-				to="Eric Redmond <eric.redmond@gmail.com>",
+				sender=ENV['email-sender'],
+				subject=ENV['email-subject'],
+				to=ENV['email-to'],
 				body=self.render( "messagebody.txt", options )
 			)
 		message.send()
 	else:
-		logging.error('No idea what to do here... email \'%s\' doesn\'t match active ticket' % checkout_gn.email)
-	
+		# The ticket sits in limbo until it is CHARGEABLE
+		if checkout_gn.new_financial_order_state == 'CHARGEABLE':
+			query = Ticket.all()
+			query.filter('google_order_number =', checkout_gn.order_number)
+			ticket = query.fetch(1)
+			if ticket: 
+				ticket = ticket[0]
+				ticket.financial_order_state = 'CHARGEABLE'
+				ticket.put()
+		
 	self.response.out.write('')
 
 class CheckoutHandler( HandlerBase ):
@@ -136,46 +167,16 @@ class CheckoutHandler( HandlerBase ):
 	ticket = self.create( Ticket, fields )
 	ticket.put()
 	
-	google_co = checkout.Google( item_name, item_desc, unit_price, return_url, ticket.key() )
-	url = 'https://sandbox.google.com/checkout/api/checkout/v2/merchantCheckout/Merchant/875093275712045'
-	google_co.fetch('875093275712045','qNztxsdPtwA9f_dICQmjhg', url)
+	google_co = checkout.Google( item_name, item_desc, unit_price, 1, return_url, ticket.key() )
+	google_co.fetch(ENV['google-co-username'], ENV['google-co-password'], ENV['google-co'])
 	redirect_url = google_co.get_redirect_url()
 	
 	self.redirect(redirect_url, False)
 
 
-# class CheckoutHandler( HandlerBase ):
-# 
-#   def post( self ):
-#   
-#	 # TODO: Form checking
-# 
-#	 # Create ticket, pulling required fields from form data, tacking on feature values
-#	 fields = ( 'email', 'name', 'phone', 'description' )
-#	 ticket = self.create( Ticket, fields )
-#	 for k, v in self.get_options().iteritems():
-#	   if not hasattr( ticket, k ): setattr( ticket, k, v )
-#	 ticket.put()
-# 
-#	 # Create options hash from ticket standard fields
-#	 options = {}
-#	 for field in fields: options[field] = getattr( ticket, field )
-# 
-#	 # Create and send email message
-#	 message = mail.EmailMessage(
-#	   sender="eric.redmond@gmail.com",
-#			 subject="Someone gave you a task",
-#			 to="Jim Wilson <wilson.jim.r@gmail.com>, Eric Redmond <eric.redmond@gmail.com>",
-#			 body=self.render( "messagebody", options )
-#		 )
-#	 message.send()
-#	 
-#	 return self.get()
-
 def main():
 	application = webapp.WSGIApplication([
 		('/faq', FAQHandler),
-		#('/checkout', CheckoutHandler),
 		('/checkout', CheckoutHandler),
 		('/gpaynotify', GPayNotifyHandler),
 		('/.*', MainHandler), # must be listed last since this regex matches anything

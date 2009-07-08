@@ -1,7 +1,9 @@
-Dear Sirs:
-
-Please perform the following task for {{ name }} <{{ email }}>
+Please perform the following task on behalf of {{ name }}
 
 {{ description }}
 
-This task must take no more than 1 hour to complete.
+This task must take no more than {{ hours }} hour to complete.
+
+If necessary, please contact {{ name }} directly
+Email address is {{ email }}
+Phone number {{ phone }}

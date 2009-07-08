@@ -11,10 +11,11 @@ class Google(object):
     Google Checkout utility
   """
   
-  def __init__( self, name, desc, price, return_url, key ):
+  def __init__( self, name, desc, price, hours, return_url, key ):
     self.name = name
     self.desc = desc
     self.price = price
+    self.hours = hours
     self.return_url = return_url
     self.key = str(key)
   
@@ -49,7 +50,7 @@ class Google(object):
             <item-name>%s</item-name>
             <item-description>%s</item-description>
             <unit-price currency="USD">%s</unit-price>
-            <quantity>1</quantity>
+            <quantity>%s</quantity>
             <digital-content>
               <display-disposition>PESSIMISTIC</display-disposition>
               <description>
@@ -62,6 +63,6 @@ class Google(object):
         </items>
         <merchant-private-data><ticket-key>%s</ticket-key></merchant-private-data>
       </shopping-cart>
-    </checkout-shopping-cart>''' % (self.name, self.desc, self.price, self.return_url, self.key)
+    </checkout-shopping-cart>''' % (self.name, self.desc, self.price, self.hours, self.return_url, self.key)
   
   

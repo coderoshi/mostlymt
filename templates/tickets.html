@@ -1,6 +1,20 @@
 <p>Current Tickets</p>
 <ul class="tickets">
-{% for ticket in tickets %}
+{% for ticket in active_tickets %}
+{% ifchanged ticket.timestamp.date %}
+<li class="break"><span class="date">{{ ticket.timestamp.date }}</span></li>
+{% endifchanged %}
+<li>
+  <div class="time">{{ ticket.timestamp|date:"P" }}</div>
+  <div class="name">{{ ticket.name|escape }}</div>
+  <blockquote class="description">{{ ticket.description|escape }}</blockquote>
+</li>
+{% endfor %}
+</ul>
+
+<p>Upcoming Tickets</p>
+<ul class="upcoming-tickets">
+{% for ticket in reviewing_tickets %}
 {% ifchanged ticket.timestamp.date %}
 <li class="break"><span class="date">{{ ticket.timestamp.date }}</span></li>
 {% endifchanged %}
