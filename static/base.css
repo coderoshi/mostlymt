@@ -132,4 +132,7 @@ label input {
   display: block;
   float: right;
 }
-
+.footer {
+  text-align:center;
+  font-size:.8em;
+}
