@@ -19,9 +19,7 @@
 default:
 
   # Used to show different color schemes
-  stylesheet:
-    standard: 0.95
-    contender: 0.05
+  stylesheet: standard
 
   # Displayed in the title
   tagline:
