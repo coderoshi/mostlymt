@@ -20,6 +20,9 @@ default:
 
   # Used to show different color schemes
   stylesheet: standard
+  
+  # Shortcut Icon
+  favicon: m-logo.ico
 
   # Displayed in the title
   tagline:
