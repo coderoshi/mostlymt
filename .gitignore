@@ -1,0 +1,3 @@
+# patterns to ignore when considering files to add to the repo
+*.py[co]
+
