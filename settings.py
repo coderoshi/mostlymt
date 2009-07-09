@@ -20,4 +20,3 @@ PRODUCTION = {
   'email-to':'Jim Wilson <wilson.jim.r@gmail.com>, Eric Redmond <eric.redmond@gmail.com>',
 }
 
-ENV = SANDBOX

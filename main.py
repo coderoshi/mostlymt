@@ -13,7 +13,6 @@ from handlers import HandlerBase
 from models.ticket import Ticket
 from xml.dom import minidom
 import checkout
-from settings import *
 
 class MainHandler( HandlerBase ):
 	""" Handles requests for the main page. """
@@ -88,6 +87,7 @@ class GPayNotifyHandler( HandlerBase ):
 		for field in fields: options[field] = getattr( ticket, field )
 		
 		# Create and send email message
+		ENV = self.get_settings()
 		message = mail.EmailMessage(
 				sender=ENV['email-sender'],
 				subject=ENV['email-subject'],
@@ -167,6 +167,7 @@ class CheckoutHandler( HandlerBase ):
 	ticket = self.create( Ticket, fields )
 	ticket.put()
 	
+	ENV = self.get_settings()
 	google_co = checkout.Google( item_name, item_desc, unit_price, 1, return_url, ticket.key() )
 	google_co.fetch(ENV['google-co-username'], ENV['google-co-password'], ENV['google-co'])
 	redirect_url = google_co.get_redirect_url()
