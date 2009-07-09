@@ -68,6 +68,9 @@ class GPayNotifyHandler( HandlerBase ):
 			ticket.billing_region = checkout_gn.billing_region
 			ticket.billing_postal_code = checkout_gn.billing_postal_code
 			ticket.billing_country_code = checkout_gn.billing_country_code
+			
+			ticket.email = ticket.billing_email
+			ticket.name = "%s %s" % (ticket.billing_first_name, ticket.billing_last_name)
 
 		if checkout_gn.shipping:
 			ticket.shipping_email = checkout_gn.shipping_email
@@ -79,6 +82,9 @@ class GPayNotifyHandler( HandlerBase ):
 			ticket.shipping_region = checkout_gn.shipping_region
 			ticket.shipping_postal_code = checkout_gn.shipping_postal_code
 			ticket.shipping_country_code = checkout_gn.shipping_country_code
+			
+			ticket.email = ticket.shipping_email
+			ticket.name = "%s %s" % (ticket.shipping_first_name, ticket.shipping_last_name)
 			
 		ticket.put()
 		
@@ -128,20 +134,20 @@ class CheckoutHandler( HandlerBase ):
   	data = {}
   	for field in fields: data[field] = self.request.get( field ) or ""
   	
-  	# Check email
-  	if data["email"]:
-	  	pattern = re.compile( "^\\s*[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\\s*$", re.I )
-	  	if not pattern.match( data["email"] ):
-	  		any_errors = True
-	  		data["email_error"] = options["email_invalid"]
-	else:
-		any_errors = True
-		data["email_error"] = options["email_required"]
-  		
-  	# Check name
-  	if not data["name"]:
-  		any_errors = True
-  		data["name_error"] = options["name_required"]
+  #     # Check email
+  #     if data["email"]:
+  #     pattern = re.compile( "^\\s*[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\\s*$", re.I )
+  #     if not pattern.match( data["email"] ):
+  #       any_errors = True
+  #       data["email_error"] = options["email_invalid"]
+  # else:
+  #   any_errors = True
+  #   data["email_error"] = options["email_required"]
+  #       
+  #     # Check name
+  #     if not data["name"]:
+  #       any_errors = True
+  #       data["name_error"] = options["name_required"]
   	
   	# Check description
   	if not data["description"] or len(data["description"]) < 20:
