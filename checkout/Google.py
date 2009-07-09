@@ -33,8 +33,8 @@ class Google(object):
     if self.return_content:
       cr_el = first_el( dom( self.return_content ), 'checkout-redirect' )
       if not cr_el:
-        log.error( self.return_content )
-        log.error( 'No checkout-redirect... body:' )
+        logging.error( self.return_content )
+        logging.error( 'No checkout-redirect... body:' )
         return None
       redirect_url = first_el_val( cr_el, 'redirect-url' )
       return redirect_url.replace( '&amp;', '&' )
