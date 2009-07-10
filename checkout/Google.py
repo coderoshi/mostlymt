@@ -21,6 +21,7 @@ class Google(object):
   
   def fetch( self, username, password, url ):
     basicauth = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
+    # 'buyButtonCart'
     result = urlfetch.fetch(url=url,
                            payload=self.payload(),
                            method=urlfetch.POST,
@@ -63,6 +64,10 @@ class Google(object):
         </items>
         <merchant-private-data><ticket-key>%s</ticket-key></merchant-private-data>
       </shopping-cart>
+      <checkout-flow-support>
+        <merchant-checkout-flow-support />
+      </checkout-flow-support>
+      <order-processing-support />
     </checkout-shopping-cart>''' % (self.name, self.desc, self.price, self.hours, self.return_url, self.key)
   
   

@@ -97,3 +97,21 @@ h3 {
   border: 3px ridge #ccc;
 }
 
+.linkbar {
+  padding:5px;
+  font-size:.9em;
+}
+.footer {
+  background-color:#283343;
+  float:left;
+  width:100%;
+  color:#455772;
+}
+.footer p {
+  padding:0px;
+  margin:3px;
+  margin-top:10px;
+}
+.footer a {
+  color:#455772;
+}

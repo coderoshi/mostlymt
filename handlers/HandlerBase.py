@@ -52,13 +52,16 @@ class HandlerBase( webapp.RequestHandler ):
 		for k, v in self.data_options.iteritems(): options[k] = v
 		return options
 		
+		
+	def is_prod( self ):
+		return urlparse( self.request.url ).hostname == "www.microtasking.net"
+		
 	def get_settings( self ):
 		"""
 			Returns a settings hash appropriate to the environment.
 		"""
 		if hasattr( self, "ENV" ): return self.ENV
-		prod = urlparse( self.request.url ).hostname == "www.microtasking.net"
-		env = settings.PRODUCTION if prod else settings.SANDBOX
+		env = settings.PRODUCTION if self.is_prod() else settings.SANDBOX
 		setattr( self, "ENV", env )
 		return self.ENV
 		

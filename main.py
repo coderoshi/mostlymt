@@ -19,15 +19,19 @@ class MainHandler( HandlerBase ):
 	def get( self ):
 		""" Handles HTTP GET requests. """
 		options = self.get_options()
+		options["sandbox"] = not(self.is_prod())
 		options["content"] = self.render( "index.html", options )
 		self.response.out.write( self.render( "outer.html", options ) )
+
 
 class FAQHandler( HandlerBase ):
 	""" Handles requests for the FAQ page. """
 	def get( self ):
 		options = self.get_options()
+		options["sandbox"] = not(self.is_prod())
 		options["content"] = self.render( "faq.html", options )
 		self.response.out.write( self.render( "outer.html", options ) )
+
 
 class GPayNotifyHandler( HandlerBase ):
   """ Handles google checkout callback """
@@ -46,7 +50,7 @@ class GPayNotifyHandler( HandlerBase ):
 		
 		# TODO: fail ticket if it isn't found - attempt to send error email to checkout_gn.email?
 		if not ticket:
-			logging.error('No idea what to do here... ticket not found for email \'%s\'' % checkout_gn.email)
+			logging.error('No idea what to do here... ticket not found for email \'%s\'' % checkout_gn.billing_email)
 			# 502?
 			self.response.out.write('')
 			return
@@ -93,11 +97,11 @@ class GPayNotifyHandler( HandlerBase ):
 		for field in fields: options[field] = getattr( ticket, field )
 		
 		# Create and send email message
-		ENV = self.get_settings()
+		env = self.get_settings()
 		message = mail.EmailMessage(
-				sender=ENV['email-sender'],
-				subject=ENV['email-subject'],
-				to=ENV['email-to'],
+				sender=env['email-sender'],
+				subject=env['email-subject'],
+				to=env['email-to'],
 				body=self.render( "messagebody.txt", options )
 			)
 		message.send()
@@ -113,6 +117,7 @@ class GPayNotifyHandler( HandlerBase ):
 				ticket.put()
 		
 	self.response.out.write('')
+
 
 class CheckoutHandler( HandlerBase ):
   # redirect to checkout w/ error messages... flash-system similar to rails?
@@ -173,9 +178,9 @@ class CheckoutHandler( HandlerBase ):
 	ticket = self.create( Ticket, fields )
 	ticket.put()
 	
-	ENV = self.get_settings()
+	env = self.get_settings()
 	google_co = checkout.Google( item_name, item_desc, unit_price, 1, return_url, ticket.key() )
-	google_co.fetch(ENV['google-co-username'], ENV['google-co-password'], ENV['google-co'])
+	google_co.fetch(env['google-co-username'], env['google-co-password'], env['google-co'])
 	redirect_url = google_co.get_redirect_url()
 	
 	self.redirect(redirect_url, False)

@@ -12,7 +12,7 @@ SANDBOX = {
 }
 
 PRODUCTION = {
-  'google-co':'https://checkout.google.com/api/checkout/v2/checkout/Merchant/363339485026092',
+  'google-co':'https://checkout.google.com/api/checkout/v2/merchantCheckout/Merchant/363339485026092',
   'google-co-username':'363339485026092',
   'google-co-password':'fXvOLxZNLf7_NXmgQewUVQ',
   'email-sender':'eric.redmond@gmail.com',

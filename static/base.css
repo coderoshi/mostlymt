@@ -136,3 +136,13 @@ label input {
   text-align:center;
   font-size:.8em;
 }
+.linkbar {
+  text-align:center;
+  font-size:.8em;
+}
+#sandbox {
+  text-align:center;
+  font-size:1.5em;
+  color:red;
+  background-color:yellow;
+}
