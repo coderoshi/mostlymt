@@ -14,7 +14,7 @@
 <p><textarea name="description">{{ description|escape }}</textarea></p>
 {% if description_error %}<p class="validation-error"><span>* {{ description_error }}</span></p>{% endif %}
 </fieldset>
-<fieldset>
+<!-- fieldset>
 <legend><span class="step">Step 2:</span> Contact info</legend>
 <p>In case we have any questions - your satisfaction is our top priority.</p>
 <p><label><strong>Name:</strong> <input type="text" name="name" value="{{ name|escape }}" /></label></p>
@@ -23,9 +23,9 @@
 {% if email_error %}<p class="validation-error"><span>* {{ email_error }}</span></p>{% endif %}
 <p><label><strong>Phone:</strong> <input type="text" name="phone" value="{{ phone|escape }}" /></label> <span class="small">(optional)</span></p>
 {% if phone_error %}<p class="validation-error"><span>* {{ phone_error }}</span></p>{% endif %}
-</fieldset>
+</fieldset -->
 <fieldset>
-<legend><span class="step">Step 3:</span> Checkout</legend>
+<legend><span class="step">Step 2:</span> Checkout</legend>
 <p>Proceed to the checkout for payment options.</p>
 <p><input class="button" type="submit" value="Checkout &rarr;" /></p>
 </fieldset>
