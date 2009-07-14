@@ -28,12 +28,33 @@ class TicketsHandler( HandlerBase ):
 		options = self.get_options()
 		options["active_tickets"] = active_tickets
 		options["reviewing_tickets"] = reviewing_tickets
-		options["content"] = self.render( "tickets.html", options )
+		options["content"] = self.render( "admin/tickets.html", options )
+		self.response.out.write( self.render( "admin.html", options ) )
+
+class MainHandler( HandlerBase ):
+	""" Handles requests for the admin index page. """
+	def get( self ):
+		""" Handles HTTP GET requests. """
+		query = Ticket.all()
+		query.filter('financial_order_state =', 'CHARGEABLE')
+		query.order('-timestamp')
+		active_tickets = query.fetch(250)
+
+		query = Ticket.all()
+		query.filter('financial_order_state !=', 'CHARGEABLE')
+		query.order('-financial_order_state')
+		reviewing_tickets = query.fetch(250)
+
+		options = self.get_options()
+		options["active_tickets"] = active_tickets
+		options["reviewing_tickets"] = reviewing_tickets
+		options["content"] = self.render( "admin/index.html", options )
 		self.response.out.write( self.render( "admin.html", options ) )
 
 def main():
 	application = webapp.WSGIApplication([
 		('/admin/tickets', TicketsHandler),
+		('/admin', MainHandler),
 	], debug=True)
 	wsgiref.handlers.CGIHandler().run(application)
 
