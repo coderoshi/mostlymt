@@ -6,6 +6,7 @@ import os, time, re
 from urlparse import urlparse
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
+from google.appengine.api import users
 from models import featureset
 from features import features
 import settings
@@ -54,7 +55,9 @@ class HandlerBase( webapp.RequestHandler ):
 		
 		
 	def is_prod( self ):
-		return urlparse( self.request.url ).hostname == "www.microtasking.net"
+		if not hasattr(self, '__is_prod__'):
+			self.__is_prod__ = urlparse( self.request.url ).hostname == "www.microtasking.net"
+		return self.__is_prod__
 		
 	def get_settings( self ):
 		"""
@@ -65,6 +68,19 @@ class HandlerBase( webapp.RequestHandler ):
 		setattr( self, "ENV", env )
 		return self.ENV
 		
+	def protect_sandbox( self ):
+		"""
+			Returns True if this is the Sandbox and the user is not an admin, so should
+			stop rendering, False if it is ok to continue rendering the Handler
+		"""
+		options = self.get_options()
+		sandbox = not(self.is_prod())
+		if sandbox and not users.is_current_user_admin():
+			options["content"] = self.render( "404.html", options )
+			self.response.out.write( self.render( "outer.html", options ) )
+			return True
+		return False
+	
 
 	def set_cookie( self, name, value ):
 		"""

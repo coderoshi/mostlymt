@@ -18,6 +18,8 @@ class MainHandler( HandlerBase ):
 	""" Handles requests for the main page. """
 	def get( self ):
 		""" Handles HTTP GET requests. """
+		if self.protect_sandbox(): return
+		
 		options = self.get_options()
 		options["sandbox"] = not(self.is_prod())
 		options["content"] = self.render( "index.html", options )
@@ -25,6 +27,8 @@ class MainHandler( HandlerBase ):
 
 	def post(self):
 		""" Handle HTTP POST requests. (formerly CheckoutHandler) """
+		if self.protect_sandbox(): return
+		
 		# Grab options
 		options = self.get_options()
 
@@ -58,6 +62,7 @@ class MainHandler( HandlerBase ):
 		# This is a PENDING ticket. Does not become 'active' until CC is Authorized
 		ticket = self.create( Ticket, fields )
 		ticket.hours = hours
+		ticket.production = self.is_prod()
 		ticket.put()
 
 		return_url = "%s/ticket/%s" % ( base_url, str(ticket.key()) )
@@ -73,6 +78,8 @@ class MainHandler( HandlerBase ):
 class FAQHandler( HandlerBase ):
 	""" Handles requests for the FAQ page. """
 	def get( self ):
+		if self.protect_sandbox(): return
+		
 		options = self.get_options()
 		options["sandbox"] = not(self.is_prod())
 		options["content"] = self.render( "faq.html", options )
@@ -82,6 +89,8 @@ class FAQHandler( HandlerBase ):
 class AboutHandler( HandlerBase ):
 	""" Handles requests for the FAQ page. """
 	def get( self ):
+		if self.protect_sandbox(): return
+		
 		options = self.get_options()
 		options["sandbox"] = not(self.is_prod())
 		options["content"] = self.render( "about.html", options )
@@ -91,6 +100,8 @@ class AboutHandler( HandlerBase ):
 class TicketHandler( HandlerBase ):
 	""" Handles requests for individual tickets """
 	def get(self):
+		if self.protect_sandbox(): return
+		
 		options = self.get_options()
 		ticket_key = self.request.path[8:]
 		try:

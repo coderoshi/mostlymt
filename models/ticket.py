@@ -29,6 +29,7 @@ class Ticket( db.Model ):
 	shipping_region = db.StringProperty()
 	shipping_postal_code = db.StringProperty()
 	shipping_country_code = db.StringProperty()
+	production = db.BooleanProperty(default=False)
 	
 	def first_name( self ):
 		if self.shipping_first_name: return self.shipping_first_name

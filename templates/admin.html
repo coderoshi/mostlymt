@@ -12,6 +12,7 @@
 <div class="wrapper">
 <h1><a href=""><span>Microtasking Admin</span></a></h1>
 {{ content }}
+{% if logout_url %}<div><a href="{{ logout_url }}">logout</a></div>{% endif %}
 </div>
 </body>
 </html>

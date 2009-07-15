@@ -10,16 +10,17 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Unused in query history -- copied from input.
-- kind: Ticket
-  properties:
-  - name: email
-  - name: timestamp
-    direction: desc
-
-# Used 10 times in query history.
+# Used 2 times in query history.
 - kind: Ticket
   properties:
   - name: financial_order_state
+  - name: production
   - name: timestamp
+    direction: desc
+
+# Used 4 times in query history.
+- kind: Ticket
+  properties:
+  - name: production
+  - name: financial_order_state
     direction: desc
