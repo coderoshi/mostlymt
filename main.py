@@ -23,6 +23,50 @@ class MainHandler( HandlerBase ):
 		options["content"] = self.render( "index.html", options )
 		self.response.out.write( self.render( "outer.html", options ) )
 
+	def post(self):
+		""" Handle HTTP POST requests. (formerly CheckoutHandler) """
+		# Grab options
+		options = self.get_options()
+
+		# Form validation
+		fields = ( 'email', 'name', 'phone', 'description' )
+		any_errors = False
+		data = {}
+		for field in fields: data[field] = self.request.get( field ) or ""
+
+		# Check description
+		if not data["description"] or len(data["description"]) < 20:
+			any_errors = True
+			data["description_error"] = options["description_too_short"]
+	
+		# If any data didn't validate, send them back through the MainHandler
+		if any_errors:
+			data["validation_error"] = options["please_check"]
+			handler = MainHandler()
+			handler.initialize( self.request, self.response )
+			handler.data_options = data
+			return handler.get()
+
+		hours = '1'
+		item_name = "%s Hour" % hours
+		item_desc = "A microtask of %s hours time" % hours
+		unit_price = options["price"]
+		base_url = self.request.url[0 : len(self.request.url) - len(self.request.path)]
+		# return_url = "%s/%s" % ( base_url, options["promo"] or "" )
+
+		# This is a PENDING ticket. Does not become 'active' until CC is Authorized
+		ticket = self.create( Ticket, fields )
+		ticket.put()
+
+		return_url = "%s/ticket/%s" % ( base_url, str(ticket.key()) )
+
+		env = self.get_settings()
+		google_co = checkout.Google( item_name, item_desc, unit_price, 1, return_url, ticket.key() )
+		google_co.fetch(env['google-co-username'], env['google-co-password'], env['google-co'])
+		redirect_url = google_co.get_redirect_url()
+
+		self.redirect(redirect_url, False)
+
 
 class FAQHandler( HandlerBase ):
 	""" Handles requests for the FAQ page. """
@@ -151,66 +195,6 @@ class CheckoutHandler( HandlerBase ):
 	options["tagline"] = "Checkout"
 	self.response.out.write( self.render( "outer.html", options ) )
   
-  def post(self):
-
-	# Grab options
-  	options = self.get_options()
-  
-  	# Form validation
-	fields = ( 'email', 'name', 'phone', 'description' )
-	any_errors = False
-  	data = {}
-  	for field in fields: data[field] = self.request.get( field ) or ""
-  	
-  #     # Check email
-  #     if data["email"]:
-  #     pattern = re.compile( "^\\s*[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\\s*$", re.I )
-  #     if not pattern.match( data["email"] ):
-  #       any_errors = True
-  #       data["email_error"] = options["email_invalid"]
-  # else:
-  #   any_errors = True
-  #   data["email_error"] = options["email_required"]
-  #       
-  #     # Check name
-  #     if not data["name"]:
-  #       any_errors = True
-  #       data["name_error"] = options["name_required"]
-  	
-  	# Check description
-  	if not data["description"] or len(data["description"]) < 20:
-  		any_errors = True
-  		data["description_error"] = options["description_too_short"]
-  		
-  	# If any data didn't validate, send them back through the MainHandler
-  	if any_errors:
-  		data["validation_error"] = options["please_check"]
-	  	handler = MainHandler()
-	  	handler.initialize( self.request, self.response )
-	  	handler.data_options = data
-	  	return handler.get()
-	  	
-	hours = '1'
-	item_name = "%s Hour" % hours
-	item_desc = "A microtask of %s hours time" % hours
-	unit_price = options["price"]
-	base_url = self.request.url[0 : len(self.request.url) - len(self.request.path)]
-	# return_url = "%s/%s" % ( base_url, options["promo"] or "" )
-	
-	# This is a PENDING ticket. Does not become 'active' until CC is Authorized
-	ticket = self.create( Ticket, fields )
-	ticket.put()
-	
-	return_url = "%s/ticket/%s" % ( base_url, str(ticket.key()) )
-	
-	env = self.get_settings()
-	google_co = checkout.Google( item_name, item_desc, unit_price, 1, return_url, ticket.key() )
-	google_co.fetch(env['google-co-username'], env['google-co-password'], env['google-co'])
-	redirect_url = google_co.get_redirect_url()
-	
-	self.redirect(redirect_url, False)
-
-
 def main():
 	application = webapp.WSGIApplication([
 		('/about', AboutHandler),

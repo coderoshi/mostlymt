@@ -5,7 +5,7 @@
 <p id="intro">Give us a <strong>microtask</strong>, and we'll take care of it for <strong>{{ currency }}{{ price }}</strong> <span class="small info"><a href="#pricing" class="pop">more info?</a></span></p>
 {% if promo_intro %}<p>{{ promo_intro }}</p>{% endif %}
 {% if validation_error %}<p class="error"><span>{{ validation_error }}</span></p>{% endif %}
-<form action="/checkout" method="post">
+<form action="" method="post">
 {% if promo %}<input type="hidden" name="promo" value="{{ promo|escape }}" />{% endif %}
 {% if key %}<input type="hidden" name="key" value="{{ key|escape }}" />{% endif %}
 <fieldset>
@@ -14,16 +14,6 @@
 <p><textarea name="description">{{ description|escape }}</textarea></p>
 {% if description_error %}<p class="validation-error"><span>* {{ description_error }}</span></p>{% endif %}
 </fieldset>
-<!-- fieldset>
-<legend><span class="step">Step 2:</span> Contact info</legend>
-<p>In case we have any questions - your satisfaction is our top priority.</p>
-<p><label><strong>Name:</strong> <input type="text" name="name" value="{{ name|escape }}" /></label></p>
-{% if name_error %}<p class="validation-error"><span>* {{ name_error }}</span></p>{% endif %}
-<p><label><strong>Email:</strong> <input type="text" name="email" value="{{ email|escape }}" /></label></p>
-{% if email_error %}<p class="validation-error"><span>* {{ email_error }}</span></p>{% endif %}
-<p><label><strong>Phone:</strong> <input type="text" name="phone" value="{{ phone|escape }}" /></label> <span class="small">(optional)</span></p>
-{% if phone_error %}<p class="validation-error"><span>* {{ phone_error }}</span></p>{% endif %}
-</fieldset -->
 <fieldset>
 <legend><span class="step">Step 2:</span> Checkout</legend>
 <p>Proceed to the checkout for payment options.</p>
