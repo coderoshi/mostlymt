@@ -26,6 +26,14 @@ input[type=submit] {
 input:hover, input:focus {
   background-color:#FFDD99;
 }
+select {
+  font-size:1em;
+  border:1px solid #455772;
+  background-color:#EEF1F5;
+}
+select:hover, select:focus {
+  background-color:#FFDD99;
+}
 div.wrapper {
   border:3px solid #455772;
   margin-top:34px;

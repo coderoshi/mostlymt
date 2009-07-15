@@ -13,6 +13,15 @@
 <p class="hint">It should take one hour or less to complete. <span class="small ideas"><a href="#ideas" class="pop">need ideas?</a></span></p>
 <p><textarea name="description">{{ description|escape }}</textarea></p>
 {% if description_error %}<p class="validation-error"><span>* {{ description_error }}</span></p>{% endif %}
+<p>
+This task is expected to take
+<select name="hours">
+  <option value="1">1 Hour</option>
+  <option value="2">2 Hours</option>
+  <option value="3">3 Hours</option>
+  <option value="4">4 Hours</option>
+</select>
+</p>
 </fieldset>
 <fieldset>
 <legend><span class="step">Step 2:</span> Checkout</legend>

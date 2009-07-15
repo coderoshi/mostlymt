@@ -47,7 +47,8 @@ class MainHandler( HandlerBase ):
 			handler.data_options = data
 			return handler.get()
 
-		hours = '1'
+		hours = 1
+		if self.request.get('hours'): hours = int(self.request.get('hours'))
 		item_name = "%s Hour" % hours
 		item_desc = "A microtask of %s hours time" % hours
 		unit_price = options["price"]
@@ -56,12 +57,13 @@ class MainHandler( HandlerBase ):
 
 		# This is a PENDING ticket. Does not become 'active' until CC is Authorized
 		ticket = self.create( Ticket, fields )
+		ticket.hours = hours
 		ticket.put()
 
 		return_url = "%s/ticket/%s" % ( base_url, str(ticket.key()) )
 
 		env = self.get_settings()
-		google_co = checkout.Google( item_name, item_desc, unit_price, 1, return_url, ticket.key() )
+		google_co = checkout.Google( item_name, item_desc, unit_price, hours, return_url, ticket.key() )
 		google_co.fetch(env['google-co-username'], env['google-co-password'], env['google-co'])
 		redirect_url = google_co.get_redirect_url()
 

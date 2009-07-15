@@ -21,6 +21,7 @@
 <li>
   <div class="time">{{ ticket.timestamp|date:"P" }}</div>
   <div class="name">{{ ticket.name|escape }}</div>
+  <div><span class="label">Hours</span> <span class="value">{{ ticket.hours }}</span></div>
   <blockquote class="description">{{ ticket.description|escape }}</blockquote>
 </li>
 {% endfor %}
