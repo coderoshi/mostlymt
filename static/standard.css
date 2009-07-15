@@ -38,6 +38,7 @@ h1.title {
   background:url('images/title.png') no-repeat 20px top;
 }
 h1.title a {
+  display:block;
   width:550px;
   height:50px;
 }
