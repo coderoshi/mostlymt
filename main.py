@@ -33,6 +33,15 @@ class FAQHandler( HandlerBase ):
 		self.response.out.write( self.render( "outer.html", options ) )
 
 
+class AboutHandler( HandlerBase ):
+	""" Handles requests for the FAQ page. """
+	def get( self ):
+		options = self.get_options()
+		options["sandbox"] = not(self.is_prod())
+		options["content"] = self.render( "about.html", options )
+		self.response.out.write( self.render( "outer.html", options ) )
+
+
 class GPayNotifyHandler( HandlerBase ):
   """ Handles google checkout callback """
   def get(self):
@@ -188,6 +197,7 @@ class CheckoutHandler( HandlerBase ):
 
 def main():
 	application = webapp.WSGIApplication([
+		('/about', AboutHandler),
 		('/faq', FAQHandler),
 		('/checkout', CheckoutHandler),
 		('/gpaynotify', GPayNotifyHandler),

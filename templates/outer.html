@@ -11,15 +11,16 @@
 <body>
 <div class="wrapper">
 <h1 class="title"><a href=""><span>Microtasking</span></a></h1>
-{% if sandbox %}<div id="sandbox">... SANDBOX ...</div>{% endif %}
+{% if sandbox %}<div class="sandbox">... SANDBOX ...</div>{% endif %}
 {{ content }}
-{% if sandbox %}<div id="sandbox">... SANDBOX ...</div>{% endif %}
+{% if sandbox %}<div class="sandbox">... SANDBOX ...</div>{% endif %}
 </div>
 <div class="linkbar">
-  <a href="/faq">FAQ</a> | <a href="http://microtasking.blogspot.com/">Blog</a> | <a href="https://twitter.com/microtasking">Twitter</a>
+  <a href="/faq"><span>FAQ</span></a> | <a href="http://microtasking.blogspot.com/"><span>Blog</span></a> |
+  <a href="https://twitter.com/microtasking"><span>Twitter</span></a> | <a href="/about"><span>About</span></a>
 </div>
 <div class="footer">
-  <p>&copy;2009 <a href="">MicroTasking.net</a></p>
+  <p>&copy;2009 <a href="/about">MicroTasking.net</a></p>
 </div>
 <div id="popup" class="popup" style="display:none">
 <a href="" class="close"><span>close</span></a>
