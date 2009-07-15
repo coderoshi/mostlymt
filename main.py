@@ -7,7 +7,7 @@
 import os, yaml, random, time, uuid, logging, base64, re
 import wsgiref.handlers
 from google.appengine.ext.webapp import template
-from google.appengine.api import mail, urlfetch
+from google.appengine.api import mail, urlfetch, datastore_errors
 from google.appengine.ext import webapp, db
 from handlers import HandlerBase
 from models.ticket import Ticket
@@ -39,6 +39,20 @@ class AboutHandler( HandlerBase ):
 		options = self.get_options()
 		options["sandbox"] = not(self.is_prod())
 		options["content"] = self.render( "about.html", options )
+		self.response.out.write( self.render( "outer.html", options ) )
+
+
+class TicketHandler( HandlerBase ):
+	""" Handles requests for individual tickets """
+	def get(self):
+		options = self.get_options()
+		ticket_key = self.request.path[8:]
+		try:
+			options["ticket"] = db.get( db.Key( ticket_key ) )
+			options["content"] = self.render( "ticket.html", options )
+		except datastore_errors.BadKeyError:
+			options["content"] = self.render( "404.html", options )
+		options["sandbox"] = not(self.is_prod())
 		self.response.out.write( self.render( "outer.html", options ) )
 
 
@@ -181,11 +195,13 @@ class CheckoutHandler( HandlerBase ):
 	item_desc = "A microtask of %s hours time" % hours
 	unit_price = options["price"]
 	base_url = self.request.url[0 : len(self.request.url) - len(self.request.path)]
-	return_url = "%s/%s" % ( base_url, options["promo"] or "" )
+	# return_url = "%s/%s" % ( base_url, options["promo"] or "" )
 	
 	# This is a PENDING ticket. Does not become 'active' until CC is Authorized
 	ticket = self.create( Ticket, fields )
 	ticket.put()
+	
+	return_url = "%s/ticket/%s" % ( base_url, str(ticket.key()) )
 	
 	env = self.get_settings()
 	google_co = checkout.Google( item_name, item_desc, unit_price, 1, return_url, ticket.key() )
@@ -201,6 +217,7 @@ def main():
 		('/faq', FAQHandler),
 		('/checkout', CheckoutHandler),
 		('/gpaynotify', GPayNotifyHandler),
+		('/ticket/.*', TicketHandler),
 		('/.*', MainHandler), # must be listed last since this regex matches anything
 	], debug=True)
 	wsgiref.handlers.CGIHandler().run(application)

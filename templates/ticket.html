@@ -1,0 +1,19 @@
+<div class="ticket">
+<span class="date">{{ ticket.timestamp|date:"M d P" }}</span>
+<ul>
+<li><span class="label">Payment Status</span> <span class="value">{{ ticket.financial_order_state }}</span></li>
+<li><span class="label">Name</span> <span class="value">{{ ticket.name }}</span></li>
+<li><span class="label">Email</span> <span class="value">{{ ticket.email }}</span></li>
+<li><span class="label">Address</span>
+  <ul>
+    <li><span class="value">{{ ticket.street_address }}</span></li>
+    <li>{% if ticket.city %}<span class="value">{{ ticket.city }}</span>, {% endif %}<span class="value">{{ ticket.region }}</span> <span class="value">{{ ticket.postal_code }}</span></li>
+    <li><span class="value">{{ ticket.country_code }}</span></li>
+  </ul>
+</li>
+<li><span class="label">Task Description</span>
+  <blockquote class="value">{{ ticket.description|escape }}</blockquote>
+</li>
+<!-- li><span class="value">Commercial Email {% if not ticket.email_allowed %}Not{% endif %} Approved</span></li -->
+<ul>
+</div>

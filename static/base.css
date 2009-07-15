@@ -146,3 +146,12 @@ label input {
   color:red;
   background-color:yellow;
 }
+.label {
+  font-weight:bold;
+}
+.value {
+  color:#666;font-style:italic;
+}
+blockquote.value {
+  margin-top:0px;
+}

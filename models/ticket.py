@@ -30,4 +30,63 @@ class Ticket( db.Model ):
 	shipping_postal_code = db.StringProperty()
 	shipping_country_code = db.StringProperty()
 	
+	def first_name( self ):
+		if self.shipping_first_name: return self.shipping_first_name
+		if self.billing_first_name: return self.billing_first_name
+		return ''
+
+	def last_name( self ):
+		if self.shipping_last_name: return self.shipping_last_name
+		if self.billing_last_name: return self.billing_last_name
+		return ''
 	
+	def name( self ):
+		return "%s %s" % (self.first_name(), self.last_name())
+	
+	def email( self ):
+		if self.shipping_email: return self.shipping_email
+		if self.billing_email: return self.billing_email
+		return ''
+	
+	def street_address( self ):
+		addr = ''
+		if self.shipping_address_1: 
+			addr += self.shipping_address_1
+		
+		if self.shipping_address_2:
+			addr += ' '
+			addr += self.shipping_address_2
+		
+		if addr: return addr
+		
+		if self.billing_address_1: 
+			addr += self.billing_address_1
+		
+		if self.billing_address_2:
+			addr += ' '
+			addr += self.billing_address_2
+		
+		if addr: return addr
+		return ''
+	
+	def city( self ):
+		if self.shipping_city: return self.shipping_city
+		if self.billing_city: return self.billing_city
+		return ''
+		
+	def region( self ):
+		if self.shipping_region: return self.shipping_region
+		if self.billing_region: return self.billing_region
+		return ''
+	
+	def postal_code( self ):
+		if self.shipping_postal_code: return self.shipping_postal_code
+		if self.billing_postal_code: return self.billing_postal_code
+		return ''
+	
+	def country_code( self ):
+		if self.shipping_country_code: return self.shipping_country_code
+		if self.billing_country_code: return self.billing_country_code
+		return ''
+	
+
