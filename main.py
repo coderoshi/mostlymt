@@ -67,7 +67,7 @@ class MainHandler( HandlerBase ):
 		# return_url = "%s/%s" % ( base_url, options["promo"] or "" )
 
 		# This is a PENDING ticket. Does not become 'active' until CC is Authorized
-		ticket = self.create( Ticket, fields )
+		ticket = self.create( Ticket, ( 'description' ) )
 		ticket.hours = data["hours"]
 		ticket.production = self.is_prod()
 		ticket.put()
