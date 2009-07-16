@@ -16,10 +16,10 @@
 <p>
 This task is expected to take
 <select name="hours">
-  <option value="1">1 Hour</option>
-  <option value="2">2 Hours</option>
-  <option value="3">3 Hours</option>
-  <option value="4">4 Hours</option>
+  <option value="1" {% ifequal hours 1 %}selected="selected"{% endifequal %}>1 Hour</option>
+  <option value="2" {% ifequal hours 2 %}selected="selected"{% endifequal %}>2 Hours</option>
+  <option value="3" {% ifequal hours 3 %}selected="selected"{% endifequal %}>3 Hours</option>
+  <option value="4" {% ifequal hours 4 %}selected="selected"{% endifequal %}>4 Hours</option>
 </select>
 </p>
 </fieldset>

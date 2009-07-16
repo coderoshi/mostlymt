@@ -33,7 +33,7 @@ class MainHandler( HandlerBase ):
 		options = self.get_options()
 
 		# Form validation
-		fields = ( 'email', 'name', 'phone', 'description' )
+		fields = ( 'description', 'hours' )
 		any_errors = False
 		data = {}
 		for field in fields: data[field] = self.request.get( field ) or ""
@@ -42,6 +42,14 @@ class MainHandler( HandlerBase ):
 		if not data["description"] or len(data["description"]) < 20:
 			any_errors = True
 			data["description_error"] = options["description_too_short"]
+			
+		# Coerce number of hours to legal value
+		try:
+			data["hours"] = int( data["hours"] )
+			if data["hours"] < 1: data["hours"] = 1
+			if data["hours"] > 4: data["hours"] = 4
+		except TypeError:
+			data["hours"] = 1
 	
 		# If any data didn't validate, send them back through the MainHandler
 		if any_errors:
@@ -51,24 +59,23 @@ class MainHandler( HandlerBase ):
 			handler.data_options = data
 			return handler.get()
 
-		hours = 1
-		if self.request.get('hours'): hours = int(self.request.get('hours'))
-		item_name = "%s Hour" % hours
-		item_desc = "A microtask of %s hours time" % hours
+		suffix = "s" if data["hours"] > 1 else ""
+		item_name = "%s Hour%s" % ( data["hours"], suffix )
+		item_desc = "A microtask of %s hours time" % data["hours"]
 		unit_price = options["price"]
 		base_url = self.request.url[0 : len(self.request.url) - len(self.request.path)]
 		# return_url = "%s/%s" % ( base_url, options["promo"] or "" )
 
 		# This is a PENDING ticket. Does not become 'active' until CC is Authorized
 		ticket = self.create( Ticket, fields )
-		ticket.hours = hours
+		ticket.hours = data["hours"]
 		ticket.production = self.is_prod()
 		ticket.put()
 
 		return_url = "%s/ticket/%s" % ( base_url, str(ticket.key()) )
 
 		env = self.get_settings()
-		google_co = checkout.Google( item_name, item_desc, unit_price, hours, return_url, ticket.key() )
+		google_co = checkout.Google( item_name, item_desc, unit_price, data["hours"], return_url, ticket.key() )
 		google_co.fetch(env['google-co-username'], env['google-co-password'], env['google-co'])
 		redirect_url = google_co.get_redirect_url()
 
