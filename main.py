@@ -92,6 +92,16 @@ class FAQHandler( HandlerBase ):
 		options["content"] = self.render( "faq.html", options )
 		self.response.out.write( self.render( "outer.html", options ) )
 
+class ExamplesHandler( HandlerBase ):
+	""" Handles requests for the Examples page. """
+	def get( self ):
+		if self.protect_sandbox(): return
+
+		options = self.get_options()
+		options["sandbox"] = not(self.is_prod())
+		options["content"] = self.render( "examples.html", options )
+		self.response.out.write( self.render( "outer.html", options ) )
+
 
 class AboutHandler( HandlerBase ):
 	""" Handles requests for the FAQ page. """
@@ -219,6 +229,7 @@ def main():
 	application = webapp.WSGIApplication([
 		('/about', AboutHandler),
 		('/faq', FAQHandler),
+		('/examples', ExamplesHandler),
 		('/checkout', CheckoutHandler),
 		('/gpaynotify', GPayNotifyHandler),
 		('/ticket/.*', TicketHandler),
