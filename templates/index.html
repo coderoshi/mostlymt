@@ -14,8 +14,14 @@
 {% if promo %}<input type="hidden" name="promo" value="{{ promo|escape }}" />{% endif %}
 {% if key %}<input type="hidden" name="key" value="{{ key|escape }}" />{% endif %}
 <fieldset>
+<legend>How this works</legend>
+<p>Here's a quick overview, so you know what to expect:</p>
+<p><img src="/static/images/diagram.png" /></p>
+<p>Questions? Read the <a href="/faq" title="FAQ">FAQ</a> or watch a <a href="http://microtasking.blogspot.com/2009/07/screencast-1.html" title="Introductory Screencast">Video</a>. <!-- or email us: <a href="mailto:contact@microtasking.net">contact@microtasking.net</a>--></p>
+</fieldset>
+<fieldset>
 <legend><span class="step">Step 1:</span> Describe your microtask</legend>
-<p class="hint">It should take one hour or less to complete. <span class="small ideas"><a href="#ideas" class="pop">need ideas?</a></span></p>
+<p class="hint">Ideally it should take one hour or less to complete. <span class="small ideas"><a href="#ideas" class="pop">need ideas?</a></span></p>
 <p><textarea name="description">{{ description|escape }}</textarea></p>
 {% if description_error %}<p class="validation-error"><span>* {{ description_error }}</span></p>{% endif %}
 <p>
