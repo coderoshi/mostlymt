@@ -5,6 +5,11 @@
 <p id="intro">Give us a <strong>microtask</strong>, and we'll take care of it for <strong>{{ currency }}{{ price }}</strong>/hr <span class="small info"><a href="#pricing" class="pop">more info?</a></span></p>
 {% if promo_intro %}<p>{{ promo_intro }}</p>{% endif %}
 {% if validation_error %}<p class="error"><span>{{ validation_error }}</span></p>{% endif %}
+
+<div class="quote" id="quote-1">Doing it <strong>well now</strong> is much better than doing it <strong>perfectly later</strong>. <span class="credit">Seth Godin</span></div>
+<div class="quote" id="quote-2">Real productivity means getting faster at <strong>moving the crap off your desk</strong> so you can have room to focus on the creative work that only you can do. <span class="credit">Merlin Mann</span></div>
+<div class="quote" id="quote-3"><span class="credit"></span></div>
+
 <form action="" method="post">
 {% if promo %}<input type="hidden" name="promo" value="{{ promo|escape }}" />{% endif %}
 {% if key %}<input type="hidden" name="key" value="{{ key|escape }}" />{% endif %}
