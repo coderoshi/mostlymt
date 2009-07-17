@@ -82,6 +82,17 @@ class MainHandler( HandlerBase ):
 		self.redirect(redirect_url, False)
 
 
+class PrivacyHandler( HandlerBase ):
+	""" Handles requests for the Privacy Policy page. """
+	def get( self ):
+		if self.protect_sandbox(): return
+		
+		options = self.get_options()
+		options["sandbox"] = not(self.is_prod())
+		options["content"] = self.render( "privacy_policy.html", options )
+		self.response.out.write( self.render( "outer.html", options ) )
+
+
 class FAQHandler( HandlerBase ):
 	""" Handles requests for the FAQ page. """
 	def get( self ):
@@ -229,6 +240,7 @@ def main():
 	application = webapp.WSGIApplication([
 		('/about', AboutHandler),
 		('/faq', FAQHandler),
+		('/privacy', PrivacyHandler),
 		('/examples', ExamplesHandler),
 		('/checkout', CheckoutHandler),
 		('/gpaynotify', GPayNotifyHandler),
