@@ -22,7 +22,7 @@ class MainHandler( HandlerBase ):
 		
 		options = self.get_options()
 		options["sandbox"] = not(self.is_prod())
-		options["content"] = self.render( "index.html", options )
+		options["content"] = self.render( "main.html", options )
 		self.response.out.write( self.render( "outer.html", options ) )
 
 	def post(self):
@@ -80,48 +80,24 @@ class MainHandler( HandlerBase ):
 		redirect_url = google_co.get_redirect_url()
 
 		self.redirect(redirect_url, False)
-
-
-class PrivacyHandler( HandlerBase ):
-	""" Handles requests for the Privacy Policy page. """
+		
+class StaticHandler( HandlerBase ):
+	""" Handles requests for static-esque content. """
 	def get( self ):
 		if self.protect_sandbox(): return
 		
-		options = self.get_options()
-		options["sandbox"] = not(self.is_prod())
-		options["content"] = self.render( "privacy_policy.html", options )
-		self.response.out.write( self.render( "outer.html", options ) )
-
-
-class FAQHandler( HandlerBase ):
-	""" Handles requests for the FAQ page. """
-	def get( self ):
-		if self.protect_sandbox(): return
+		# Parse out the first path segment and use it if it's a legit promo
+		m = re.compile("^/?([^/\\?]*)").findall( self.request.path )
+		path = m[0] or "main" if m and len(m) else "main"
 		
+		# Check whether template exists
+		f = os.path.join( os.path.dirname( __file__ ), 'templates', "%s.html" % path  )
+		if not os.path.exists( f ): path = "main"
+			
+		# Render desired page
 		options = self.get_options()
 		options["sandbox"] = not(self.is_prod())
-		options["content"] = self.render( "faq.html", options )
-		self.response.out.write( self.render( "outer.html", options ) )
-
-class ExamplesHandler( HandlerBase ):
-	""" Handles requests for the Examples page. """
-	def get( self ):
-		if self.protect_sandbox(): return
-
-		options = self.get_options()
-		options["sandbox"] = not(self.is_prod())
-		options["content"] = self.render( "examples.html", options )
-		self.response.out.write( self.render( "outer.html", options ) )
-
-
-class AboutHandler( HandlerBase ):
-	""" Handles requests for the FAQ page. """
-	def get( self ):
-		if self.protect_sandbox(): return
-		
-		options = self.get_options()
-		options["sandbox"] = not(self.is_prod())
-		options["content"] = self.render( "about.html", options )
+		options["content"] = self.render( "%s.html" % path, options )
 		self.response.out.write( self.render( "outer.html", options ) )
 
 
@@ -227,22 +203,9 @@ class GPayNotifyHandler( HandlerBase ):
 	self.response.out.write('')
 
 
-class CheckoutHandler( HandlerBase ):
-  # redirect to checkout w/ error messages... flash-system similar to rails?
-  """ Handles requests for the checkout page. """
-  def get( self ):
-	options = self.get_options()
-	options["content"] = self.render( "checkout.html", options )
-	options["tagline"] = "Checkout"
-	self.response.out.write( self.render( "outer.html", options ) )
-  
 def main():
 	application = webapp.WSGIApplication([
-		('/about', AboutHandler),
-		('/faq', FAQHandler),
-		('/privacy', PrivacyHandler),
-		('/examples', ExamplesHandler),
-		('/checkout', CheckoutHandler),
+		('/(?:about|checkout|examples|faq|how|privacy)', StaticHandler),
 		('/gpaynotify', GPayNotifyHandler),
 		('/ticket/.*', TicketHandler),
 		('/.*', MainHandler), # must be listed last since this regex matches anything
