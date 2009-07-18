@@ -19,6 +19,12 @@ This task should take about
   <option value="4" {% ifequal hours 4 %}selected="selected"{% endifequal %}>4 Hours</option>
 </select>
 </p>
+<p>
+Additional amount: {{ currency }}
+<input type="text" class="text" name="additional" value="{% if additional %}{{ additional|floatformat:2 }}{% else %}0.00{% endif %}" />
+<span class="small"><a href="/additional" title="What is the additional amount?">?</a></span>
+</p>
+{% if additional_error %}<p class="validation-error"><span>* {{ additional_error }} {{ currency }}{{ max_additional|floatformat:2 }}</span></p>{% endif %}
 <p class="checkout"><input class="button" type="submit" value="Checkout" /></p>
 </fieldset>
 </form>

@@ -13,6 +13,17 @@ If it's not reasonable, immediately send {{ name }} an email explaining that it 
 
 Contact them directly if necessary via email: {{ email }}
 
+SPENDING:
+{% if additional %}
+You are authorized to spend up to ${{ additional|floatformat:2 }} in order to complete this task.
+
+If the task would obviously require more than this amount, immediately send {{ name }} an email explaining that it will not be possible to complete the task given the amount provided, and they will not be charged.
+{% else %}
+Under no circumstances are you to spend any money towards the completion of this task.
+
+If the task requires spending any money, immediately send {{ name }} an email explaining that it will not be possible to complete the task, and that they will not be charged.
+{% endif %}
+
 DURATION:
 
 Spend no more than {{ hours }} hour{{ hours|pluralize }} on this task. (The less time the better).

@@ -33,7 +33,7 @@ class MainHandler( HandlerBase ):
 		options = self.get_options()
 
 		# Form validation
-		fields = ( 'description', 'hours' )
+		fields = ( 'description', 'hours', 'additional' )
 		any_errors = False
 		data = {}
 		for field in fields: data[field] = self.request.get( field ) or ""
@@ -51,13 +51,23 @@ class MainHandler( HandlerBase ):
 		except TypeError:
 			data["hours"] = 1
 	
+		# Check the "additional" ammount
+		max_additional = options["max_additional"]
+		if not data["additional"]: data["additional"] = 0.0
+		try:
+			data["additional"] = float(data["additional"])
+			if data["additional"] < 0.0: data["additional"] = 0.0
+			if data["additional"] > max_additional:
+				any_errors = True
+				data["additional_error"] = options["additional_too_high"]
+		except ValueError:
+			data["additional"] = 0.0
+			
 		# If any data didn't validate, send them back through the MainHandler
 		if any_errors:
 			data["validation_error"] = options["please_check"]
-			handler = MainHandler()
-			handler.initialize( self.request, self.response )
-			handler.data_options = data
-			return handler.get()
+			self.data_options = data
+			return self.get()
 
 		suffix = "s" if data["hours"] > 1 else ""
 		item_name = "%s Hour%s" % ( data["hours"], suffix )
@@ -67,15 +77,24 @@ class MainHandler( HandlerBase ):
 		# return_url = "%s/%s" % ( base_url, options["promo"] or "" )
 
 		# This is a PENDING ticket. Does not become 'active' until CC is Authorized
-		ticket = self.create( Ticket, ( 'description' ) )
-		ticket.hours = data["hours"]
+		ticket = Ticket(
+			description = data["description"],
+			price = options["price"],
+			hours = data["hours"],
+			additional = data["additional"],
+			total = options["price"] * data["hours"] + data["additional"]
+		)
 		ticket.production = self.is_prod()
 		ticket.put()
 
 		return_url = "%s/ticket/%s" % ( base_url, str(ticket.key()) )
 
 		env = self.get_settings()
-		google_co = checkout.Google( item_name, item_desc, unit_price, data["hours"], return_url, ticket.key() )
+		google_co = checkout.Google(
+			item_name, item_desc, unit_price, data["hours"],
+			data["additional"], options["additional_name"], options["additional_desc"],
+			return_url, ticket.key()
+		)
 		google_co.fetch(env['google-co-username'], env['google-co-password'], env['google-co'])
 		redirect_url = google_co.get_redirect_url()
 
@@ -91,7 +110,7 @@ class StaticHandler( HandlerBase ):
 		path = m[0] or "main" if m and len(m) else "main"
 		
 		# Check whether template exists
-		f = os.path.join( os.path.dirname( __file__ ), 'templates', "%s.html" % path  )
+		f = os.path.join( os.path.dirname( __file__ ), 'templates', "%s.html" % path )
 		if not os.path.exists( f ): path = "main"
 			
 		# Render desired page
@@ -176,17 +195,18 @@ class GPayNotifyHandler( HandlerBase ):
 		ticket.put()
 		
 		# Create options hash from ticket standard fields
-		fields = ( 'email', 'name', 'phone', 'description', 'hours' )
+		fields = ( 'email', 'name', 'phone', 'description', 'hours', 'additional' )
 		options = {}
 		for field in fields: options[field] = getattr( ticket, field )
 		
 		# Create and send email message
 		env = self.get_settings()
+		body = self.render( "messagebody.txt", options )
 		message = mail.EmailMessage(
 				sender=env['email-sender'],
 				subject=env['email-subject'],
 				to=env['email-to'],
-				body=self.render( "messagebody.txt", options )
+				body=body
 			)
 		message.send()
 	else:
@@ -205,7 +225,7 @@ class GPayNotifyHandler( HandlerBase ):
 
 def main():
 	application = webapp.WSGIApplication([
-		('/(?:about|checkout|examples|faq|how|privacy)', StaticHandler),
+		('/(?:about|additional|checkout|examples|faq|how|privacy)', StaticHandler),
 		('/gpaynotify', GPayNotifyHandler),
 		('/ticket/.*', TicketHandler),
 		('/.*', MainHandler), # must be listed last since this regex matches anything

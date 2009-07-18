@@ -32,17 +32,25 @@ default:
   # How much per task
   price: 11.99
 
+  # Maximum "additional amount"
+  max_additional: 100.0
+
   # Monetary unit
   currency: $
   
   # Promotion intro text
   promo_intro: ""
   
+  # Additional amount
+  additional_name: "Additional amount"
+  additional_desc: "Additional amount to use towards completing the task"
+  
   # Error strings
   email_invalid: "Invalid email address"
   email_required: "Email address required"
   name_required: "Name required"
   description_too_short: "Description too short, please be specific."
+  additional_too_high: "Additional amount cannot exceed "
   please_check: "Please double check your info provided below, then re-submit.  Thanks!"
 
 # Breast cancer awareness promotion
