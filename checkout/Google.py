@@ -57,13 +57,13 @@ class Google(object):
             <digital-content>
               <display-disposition>PESSIMISTIC</display-disposition>
               <description>
-                When your payment is processed, your task will be worked on. 
-                View your task&apos;s status
-                &amp;lt;a href="%s"&amp;gt;here&amp;lt;/a&amp;gt;.
+                Note that you requested %s additional funds for this task. Only
+                the amount required will be used to complete the task. The remaining
+                amount will be refunded.
               </description>
             </digital-content>
           </item>
-      ''' % ( self.additional_name, self.additional_desc, self.additional, self.return_url )
+      ''' % ( self.additional_name, self.additional_desc, self.additional, self.additional )
     return '''<?xml version="1.0" encoding="UTF-8"?>
     <checkout-shopping-cart xmlns="http://checkout.google.com/schema/2">
       <shopping-cart>
