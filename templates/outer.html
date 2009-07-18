@@ -9,71 +9,26 @@
 <title>Microtasking - {{ tagline }}</title>
 </head>
 <body>
-<div class="wrapper">
+<div class="outer-wrapper">
+<div class="inner-wrapper">
 <h1 class="title"><a href="/{{ promo }}"><span>Microtasking</span></a></h1>
-{% if sandbox %}<div class="sandbox">... SANDBOX ...</div>{% endif %}
+<div class="content">
 {{ content }}
-{% if sandbox %}<div class="sandbox">... SANDBOX ...</div>{% endif %}
 </div>
-<div class="linkbar">
+</div>
+<p class="navbar">
+  <a href="/{{ promo }}"><span>Home</span></a> |
+  <a href="/how"><span>How does it work?</span></a> | 
+  <a href="http://microtasking.blogspot.com/2009/07/screencast-1.html"><span>Video</span></a>
+</p>
+<p class="linkbar">
   <a href="/faq"><span>FAQ</span></a> | <a href="http://microtasking.blogspot.com/"><span>Blog</span></a> |
   <a href="https://twitter.com/microtasking"><span>Twitter</span></a> | <a href="/about"><span>About</span></a>
-</div>
+</p>
 <div class="footer">
   <p>&copy;2009 <a href="/about">MicroTasking.net</a></p>
 </div>
-<div id="popup" class="popup" style="display:none">
-<a href="" class="close"><span>close</span></a>
 </div>
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-9692232-1");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-<script type="text/javascript">
-(function(){
-	var
-		href = document.location.href,
-		links = document.getElementsByTagName('a'),
-		popup = document.getElementById('popup'),
-		close = popup.getElementsByTagName('a')[0];
-	close.onclick = function(){
-		popup.style.display = "none";
-		return false;
-	};
-	for (var i=0, l=links.length; i<l; i++) {
-		var a = links[i];
-		if (!a.href || a.href.indexOf(href) !== 0) continue;
-		if (!(/(^|\s)pop(\s|$)/).test(a.className)) continue;
-		var pos = a.href.indexOf('#'), id = a.href.substring(pos + 1);
-		if (pos !== href.length || !id) continue;
-		(function(elem){
-			if (!elem) return;
-			elem.style.display = "none";
-			popup.appendChild(elem);
-			a.href = "";
-			a.onclick = function(){
-				for (var i=0, l=popup.childNodes.length; i<l; i++) {
-					var node = popup.childNodes[i];
-					if (node.nodeType === 1 && node !== close) node.style.display = "none";
-				}
-				elem.style.display = popup.style.display = "";
-				var
-					doc = document.documentElement,
-					viewportH = window.innerHeight || doc.clientHeight,
-					top = document.body.scrollTop || doc.scrollTop;
-				popup.style.top = (viewportH - popup.offsetHeight) / 2 + top + "px";
-				popup.style.left = (doc.clientWidth - popup.offsetWidth) / 2 + "px";
-				return false;
-			};
-		})(document.getElementById(id));
-	}
-})();
-</script>
 </body>
 </html>
 

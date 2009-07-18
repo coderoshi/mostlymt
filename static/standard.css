@@ -1,168 +1,235 @@
 /**
  * standard.css
  */
+ 
+/* outer scaffolding */
 body {
-  background:url('images/background.png') repeat-x;
-  background-color:#EEF1F5;
+	background-color: #a1b0c6;
+	background-image: url(/static/images/body-background-bar.png);
+	background-repeat: repeat-x;
 }
-dl {
-  color:#666666;
+.outer-wrapper {
+	position: relative;
+	width: 840px;
+	margin: 0 auto;
+	background-image: url(/static/images/wrapper-background-edges.png);
+	background-repeat: repeat-y;
 }
-textarea {
-  border:1px solid #455772;
-  width:580px;
-  background-color:#EEF1F5;
-}
-textarea:hover, textarea:focus {
-  background-color:#FFDD99;
-}
-input[type=text] {
-  border:1px solid #666666;
-  background-color:#EEF1F5;
-}
-input[type=submit] {
-  border:1px solid #455772;
-}
-input:hover, input:focus {
-  background-color:#FFDD99;
-}
-select {
-  font-size:1em;
-  border:1px solid #455772;
-  background-color:#EEF1F5;
-}
-select:hover, select:focus {
-  background-color:#FFDD99;
-}
-div.wrapper {
-  border:3px solid #455772;
-  margin-top:34px;
-}
-h1.title {
-  position:absolute;
-  top:0px;
-  width:560px;
-  height:50px;
-  background:url('images/title.png') no-repeat 20px top;
-}
-h1.title a {
-  display:block;
-  width:550px;
-  height:50px;
-}
-h1.title a span {
-  display:none;
-}
-fieldset {
-  border:0px;
-  padding:0px;
-}
-fieldset legend {
-  font-size:150%;
-  font-style:italic;
-  font-weight:normal;
-}
-fieldset legend span.step {
-  color:#FF6600;
-  font-style:normal;
-  font-weight:bold;
-}
-h3 {
-  color:#FF3300;
-}
-#intro {
-  border:3px double #455772;
-  border-bottom:3px solid #455772;
-  background:#EEF1F5;
-  padding:10px;
-  text-align:center;
-  margin-left:-1.6em;
-  margin-right:-1.6em;
-  margin-bottom:1em;
-  font-size:125%;
-  color:#455772;
-  /*position:absolute;*/
-  margin-top:31px;
-}
-#intro strong {
-  color:#FF3300;
-  font-style:italic;
-}
-#intro .small {
-  font-size:50%;
-}
-#intro .info {
-  display:block;
-  float:right;
-  padding-top:6px;
-}
-.hint {
-  color:#666666;
-  font-style:italic;
-  padding-left:46px;
-  background:url('images/hint.png') no-repeat 8px center;
-}
-.popup {
-  border: 3px ridge #ccc;
+.inner-wrapper {
+	min-height: 195px;
+	background-image: url(/static/images/content-background.png);
+	background-repeat: no-repeat;
+	padding: 85px 40px 20px;
 }
 
-.linkbar {
-  padding:5px;
-  font-size:.9em;
+/* the logo link */
+.title span {
+	display: none;
+}
+.title a {
+	position: absolute;
+	top: 0;
+	left: 20px;
+	display: block;
+	width: 250px;
+	height: 85px;
+}
+
+/* rounded corners */
+.top, .bottom, .left, .right. .middle {
+	margin: 0;
+}
+.left, .right {
+	background-image: url(/static/images/rounded-corners.png);
+	height: 10px;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+.left {
+	margin-right: 10px;
+}
+.right {
+	float: right;
+	width: 10px;
+}
+.top .left {
+	background-position: -10px 0px;
+}
+.bottom .left {
+	background-position: -10px -10px;
+}
+.bottom .right {
+	background-position: 0px -10px;
+}
+.middle {
+	background-color: white;
+	padding: 0 10px;
+}
+* html .top, * html .bottom {
+	display: none; /* IE 6 */
+}
+
+/* form and info boxes */
+.form, .info {
+	margin-bottom: 20px;
+}
+.form .middle, .info .middle {
+	height: 280px;
+}
+.form p, .info p {
+	margin: 0;
+}
+.form {
+	float: right;
+	width: 300px;
+}
+.info {
+	float: left;
+	width: 440px;
+}
+
+/* form box elements */
+.form fieldset {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+.form .ideas {
+	float: right;
+	margin-top: -1.7em;
+}
+.form textarea {
+	width: 265px;
+	height: 100px;
+	padding: 5px;
+}
+.checkout {
+	padding: 20px 0;
+	text-align: center;
+}
+.checkout input {
+	background-image: url(/static/images/checkout-button.png);
+	border: none;
+	width: 189px;
+	height: 31px;
+	color: white;
+	font-size: 1.5em;
+}
+
+/* info box elements */
+.info dl, .info dd {
+	margin: 0;
+}
+.info dt {
+	font-size: 1.2em;
+}
+.info ul {
+	margin: 0;
+	padding: 0;
+}
+.info li {
+	list-style-type: none;
+	background-image: url(/static/images/sprites.png);
+	*background-image: url(/static/images/sprites.gif);
+	background-repeat: no-repeat;
+	padding-left: 48px;
+	margin: 10px 0px 10px 10px;
+}
+.info .yourtasks {
+	background-position: 0px 0px;
+}
+.info .ourstaff {
+	background-position: -48px 0px;
+}
+.info .yourtime {
+	background-position: -96px 0px;
+}
+.info p {
+	background: white;
+	padding-left: 10px;
+}
+.info strong {
+	display: block;
+}
+.info {
+	line-height: 1.3em;
+}
+
+/* quotebox */
+.quotebox {
+	position: relative;
+	clear: both;
+	height: 150px;
+}
+.quotebox .box {
+	margin-right: 20px;
+	float: left;
+	position: absolute;
+}
+.quotebox p {
+	padding-left: 40px;
+	margin: 0;
+}
+.quotebox .middle p {
+	padding: 0;
+}
+
+/* positioning quotes */
+.firstquote {
+	width: 300px;
+	top: 20px;
+	left: 40px;
+}
+.secondquote {
+	width: 320px;
+	top: 60px;
+	left: 400px;
+}
+
+/* static contentx box */
+.staticbox {
+	background: white;
+	padding: 20px;
+}
+
+/* navigation bar */
+.navbar {
+	position: absolute;
+	top: 0;
+	left: 300px;
+	text-align: right;
+	width: 500px;
+	color: #ccc;
+	font-size: 1.1em;
+	line-height: 85px;
+}
+.navbar a {
+	color: #f0f0f0;
+	text-decoration: none;
+}
+
+/* page footers */
+.linkbar, .footer {
+	margin: 0 20px;
+	text-align: center;
 }
 .footer {
-  background-color:#283343;
-  float:left;
-  width:100%;
-  color:#455772;
-}
-.footer p {
-  padding:0px;
-  margin:3px;
-  margin-top:10px;
+	font-size: small;
+	background-color:#1c2430;
+	color:#455772;
 }
 .footer a {
-  color:#455772;
-}
-.ticket li {
-  list-style:none;
+	color: #455772;
 }
 
-div.quote {
-  font-size:0.8em;
-  width:200px;
-  border:1px solid gray;
-  margin-left:480px;
-  padding:15px;
-  font-style:italic;
-  color:#455772;
-  background-color:#EEF1F5;
-  display:inline;
-  position:absolute;
-  top:210px;
-  /*right:0px;*/
+/* validation */
+.validation-error {
+	color: red;
+	font-size: .8em;
 }
 
-div.quote strong {
-  color:black;
-  font-size:1.2em;
-}
 
-div#quote-1 {
-  /*width:100%;*/
-}
 
-div.quote span.credit {
-  display:block;
-  text-align:right;
-  padding-left:1em;
-  color:gray;
-  font-style:normal;
-}
-div.quote span.credit a {
-  color:gray;
-}
 
-div#quote-1 span.credit {
-  display:inline;
-}
+

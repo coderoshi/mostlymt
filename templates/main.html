@@ -1,0 +1,73 @@
+<!-- FORM -->
+<div class="box form">
+<div class="top"><div class="right"></div><div class="left"></div></div>
+<div class="middle">
+<form action="" method="post">
+{% if promo %}<input type="hidden" name="promo" value="{{ promo|escape }}" />{% endif %}
+{% if key %}<input type="hidden" name="key" value="{{ key|escape }}" />{% endif %}
+<fieldset>
+<legend>Give us a task:</legend>
+<p class="ideas"><span class="small"><a href="/examples" alt="Examples of good task requests.">examples?</a></span></p>
+<textarea name="description">{{ description|escape }}</textarea>
+{% if description_error %}<p class="validation-error"><span>* {{ description_error }}</span></p>{% endif %}
+<p>
+This task should take about
+<select name="hours">
+  <option value="1" {% ifequal hours 1 %}selected="selected"{% endifequal %}>1 Hour</option>
+  <option value="2" {% ifequal hours 2 %}selected="selected"{% endifequal %}>2 Hours</option>
+  <option value="3" {% ifequal hours 3 %}selected="selected"{% endifequal %}>3 Hours</option>
+  <option value="4" {% ifequal hours 4 %}selected="selected"{% endifequal %}>4 Hours</option>
+</select>
+</p>
+<p class="checkout"><input class="button" type="submit" value="Checkout" /></p>
+</fieldset>
+</form>
+</div>
+<div class="bottom"><div class="right"></div><div class="left"></div></div>
+</div>
+
+<!-- INFO -->
+<div class="box info">
+<div class="top"><div class="right"></div><div class="left"></div></div>
+<div class="middle">
+<dl>
+<dt>microtask:</dt>
+<dd>A simple task that someone else could do for you remotely.</dd>
+</dl>
+<ul>
+<li class="yourtasks"><p><strong>Your tasks</strong> Offload attention consuming chores you'd
+prefer to have done for you.</p></li>
+<li class="ourstaff"><p><strong>Our staff</strong> Dedicated, educated individuals ready to tackle
+your requests.</p></li>
+<li class="yourtime"><p><strong>Your time</strong> We know your time is valuable.  Let us help you
+eliminate your mundane activities.</p></li>
+</ul>
+</div>
+<div class="bottom"><div class="right"></div><div class="left"></div></div>
+</div>
+
+<!-- QUOTES -->
+<div class="quotebox">
+
+<div class="box firstquote">
+<div class="top"><div class="right"></div><div class="left"></div></div>
+<div class="middle">
+<p>Doing it well now is much better than doing it perfectly later.</p>
+</div>
+<div class="bottom"><div class="right"></div><div class="left"></div></div>
+<p>-- Seth Godin</p>
+</div>
+
+<div class="box secondquote">
+<div class="top"><div class="right"></div><div class="left"></div></div>
+<div class="middle">
+<p>If you can imagine it, you can delegate it.</p>
+</div>
+<div class="bottom"><div class="right"></div><div class="left"></div></div>
+<p>-- Tim Ferriss</p>
+</div>
+
+</div>
+
+
+
