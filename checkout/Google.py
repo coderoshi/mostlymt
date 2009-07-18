@@ -57,9 +57,9 @@ class Google(object):
             <digital-content>
               <display-disposition>PESSIMISTIC</display-disposition>
               <description>
-                Note that you requested %s additional funds for this task. Only
-                the amount required will be used to complete the task. The remaining
-                amount will be refunded.
+                Note that you requested $%s additional funds for this task. Only
+                the amount required will be used to complete the task - the remainder
+                will be refunded.
               </description>
             </digital-content>
           </item>

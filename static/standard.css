@@ -46,9 +46,10 @@ body {
 	padding: 0;
 	margin: 0;
 }
-.left {
-	margin-right: 10px;
-}
+/* Not sure why this is here... FF works fine, and it break Safari */
+/*.left {
+  margin-right: 10px;
+}*/
 .right {
 	float: right;
 	width: 10px;
@@ -66,6 +67,9 @@ body {
 	background-color: white;
 	padding: 0 10px;
 	*padding: 10px;
+
+  /* Well, it works. fixes Safari, looks ok in FF */
+	border:1px solid white;
 }
 * html .top, * html .bottom {
 	display: none; /* IE 6 */
