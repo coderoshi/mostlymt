@@ -25,7 +25,7 @@ Additional amount: {{ currency }}
 <span class="small"><a href="/additional" title="What is the additional amount?">?</a></span>
 </p>
 {% if additional_error %}<p class="validation-error"><span>* {{ additional_error }} {{ currency }}{{ max_additional|floatformat:2 }}</span></p>{% endif %}
-<p class="checkout"><input class="button" type="submit" value="Checkout" /></p>
+<p class="checkout"><input class="button" type="submit" name="checkout" value="Do My Work" /></p>
 </fieldset>
 </form>
 </div>
@@ -58,19 +58,19 @@ eliminate your mundane activities.</p></li>
 <div class="box firstquote">
 <div class="top"><div class="right"></div><div class="left"></div></div>
 <div class="middle">
-<p>Doing it well now is much better than doing it perfectly later.</p>
+<p>Doing it well <strong>now</strong> is much better than doing it perfectly <strong>later</strong>.</p>
 </div>
 <div class="bottom"><div class="right"></div><div class="left"></div></div>
-<p>-- Seth Godin</p>
+<span class="attribute"><a href="http://sethgodin.typepad.com/">Seth Godin</a>, Author, Blogger</a></span>
 </div>
 
 <div class="box secondquote">
 <div class="top"><div class="right"></div><div class="left"></div></div>
 <div class="middle">
-<p>If you can imagine it, you can delegate it.</p>
+<p>If you can <strong>imagine it</strong>, you can <strong>delegate it</strong>.</p>
 </div>
 <div class="bottom"><div class="right"></div><div class="left"></div></div>
-<p>-- Tim Ferriss</p>
+<span class="attribute"><a href="http://www.timferriss.com/">Tim Ferriss</a>, Author, <a href="http://www.fourhourworkweek.com/">The 4-Hour Work Week</a></span>
 </div>
 
 </div>

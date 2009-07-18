@@ -166,6 +166,8 @@ body {
 	position: relative;
 	clear: both;
 	height: 150px;
+	border-top:3px solid #C5CFDD;
+	margin:-10px;
 }
 .quotebox .box {
 	margin-right: 20px;
@@ -175,9 +177,29 @@ body {
 .quotebox p {
 	padding-left: 40px;
 	margin: 0;
+	font-style:italic;
+}
+.quotebox .middle {
+	background:white url(/static/images/startquote.png) no-repeat 0px 0px;
 }
 .quotebox .middle p {
 	padding: 0;
+	padding-left: 30px;
+	background:url(/static/images/endquote.png) no-repeat bottom right;
+}
+.quotebox span.attribute {
+  color:#455772;
+  display:block;
+  font-size:0.8em;
+  padding-left: 40px;
+}
+.quotebox span.attribute a {
+  color:#455772;
+  text-decoration:none;
+  border-bottom:1px dashed #657792;
+}
+.quotebox span.attribute a:hover {
+  
 }
 
 /* positioning quotes */
