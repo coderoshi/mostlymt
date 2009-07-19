@@ -170,8 +170,13 @@ body {
 	position: relative;
 	clear: both;
 	height: 150px;
-	border-top:3px solid #C5CFDD;
-	margin:-10px;
+	/*border-top:3px solid #C5CFDD;*/
+	/*margin:-20px;*/
+	margin-left:-20px;
+	margin-right:-20px;
+	margin-bottom:-15px;
+	padding-bottom:15px;
+	background-color:#a1b0c6;
 }
 .quotebox .box {
 	margin-right: 20px;
