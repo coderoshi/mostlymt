@@ -31,7 +31,7 @@ body {
 	top: 0;
 	left: 20px;
 	display: block;
-	width: 250px;
+	width: 330px;
 	height: 85px;
 }
 
@@ -233,9 +233,9 @@ body {
 .navbar {
 	position: absolute;
 	top: 0;
-	left: 300px;
+	left: 500px;
 	text-align: right;
-	width: 500px;
+	width: 300px;
 	color: #ccc;
 	font-size: 1.1em;
 	line-height: 85px;
