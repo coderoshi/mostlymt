@@ -265,7 +265,31 @@ body {
 	font-size: .8em;
 }
 
-
-
-
+/* tickets */
+.ticket {
+  background-color:white;
+  padding:10px;
+}
+.ticket .date {
+  font-size:1.5em;
+  font-style:italic;
+  color:#455772;
+}
+.ticket .label {
+  font-weight:bold;
+  width:9em;
+  float:left;
+}
+.ticket .value {
+  display:block;
+  color:#455772;
+  font-style:italic;
+}
+.ticket blockquote.value {
+  float:none;
+}
+.ticket li {
+  clear:both;
+  list-style-type:none;
+}
 

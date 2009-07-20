@@ -1,14 +1,14 @@
 <div class="ticket">
-<span class="date">{{ ticket.timestamp|date:"M d P" }}</span>
+<span class="date">{{ ticket.timestamp|date:"M d P T" }}</span>
 <ul>
-<li><span class="label">Payment Status</span> <span class="value">{{ ticket.financial_order_state }}</span></li>
+<li><label class="label">Payment Status</label> <span class="value">{{ ticket.financial_order_state }}</span></li>
 <li><span class="label">Hours</span> <span class="value">{{ ticket.hours }}</span></li>
 <li><span class="label">Name</span> <span class="value">{{ ticket.name }}</span></li>
 <li><span class="label">Email</span> <span class="value">{{ ticket.email }}</span></li>
 <li><span class="label">Address</span>
   <ul>
     <li><span class="value">{{ ticket.street_address }}</span></li>
-    <li>{% if ticket.city %}<span class="value">{{ ticket.city }}</span>, {% endif %}<span class="value">{{ ticket.region }}</span> <span class="value">{{ ticket.postal_code }}</span></li>
+    <li><span class="value">{% if ticket.city %}{{ ticket.city }}, {% endif %}{{ ticket.region }} {{ ticket.postal_code }}</span></li>
     <li><span class="value">{{ ticket.country_code }}</span></li>
   </ul>
 </li>
