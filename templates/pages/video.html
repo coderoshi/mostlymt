@@ -1,36 +1,5 @@
 <!-- FORM -->
-<div class="box form">
-<div class="top"><div class="right"></div><div class="left"></div></div>
-<div class="middle">
-<form action="" method="post">
-{% if promo %}<input type="hidden" name="promo" value="{{ promo|escape }}" />{% endif %}
-{% if key %}<input type="hidden" name="key" value="{{ key|escape }}" />{% endif %}
-<fieldset>
-<legend>give us a task:</legend>
-<p class="ideas"><span class="small"><a href="/examples" alt="Examples of good task requests.">examples?</a></span></p>
-<textarea name="description">{{ description|escape }}</textarea>
-{% if description_error %}<p class="validation-error"><span>* {{ description_error }}</span></p>{% endif %}
-<p>
-This task should take about
-<select name="hours">
-  <option value="1" {% ifequal hours 1 %}selected="selected"{% endifequal %}>1 Hour</option>
-  <option value="2" {% ifequal hours 2 %}selected="selected"{% endifequal %}>2 Hours</option>
-  <option value="3" {% ifequal hours 3 %}selected="selected"{% endifequal %}>3 Hours</option>
-  <option value="4" {% ifequal hours 4 %}selected="selected"{% endifequal %}>4 Hours</option>
-</select>
-</p>
-<p>
-Additional amount: {{ currency }}
-<input type="text" class="text" name="additional" value="{% if additional %}{{ additional|floatformat:2 }}{% else %}0.00{% endif %}" />
-<span class="small"><a href="/additional" title="What is the additional amount?">?</a></span>
-</p>
-{% if additional_error %}<p class="validation-error"><span>* {{ additional_error }} {{ currency }}{{ max_additional|floatformat:2 }}</span></p>{% endif %}
-<p class="checkout"><input class="button" type="submit" name="checkout" value="Do My Work" /></p>
-</fieldset>
-</form>
-</div>
-<div class="bottom"><div class="right"></div><div class="left"></div></div>
-</div>
+{{ form }}
 
 <!-- INFO -->
 <div class="box info">

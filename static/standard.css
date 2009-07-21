@@ -36,6 +36,9 @@ body {
 }
 
 /* rounded corners */
+.box {
+	clear: both;
+}
 .top, .bottom, .left, .right. .middle {
 	margin: 0;
 }
@@ -78,6 +81,7 @@ body {
 /* form and info boxes */
 .form, .info {
 	margin-bottom: 20px;
+	clear: none;
 }
 .form .middle, .info .middle {
 	min-height: 285px;
@@ -296,5 +300,6 @@ body {
   clear:both;
   list-style-type:none;
 }
+
 
 
