@@ -18,11 +18,21 @@ class MainHandler( HandlerBase ):
 	""" Handles requests for the main page. """
 	def get( self ):
 		""" Handles HTTP GET requests. """
+
 		if self.protect_sandbox(): return
 		
+		# Parse out the first path segment and use it if it's a legit page template
+		m = re.compile("^/?([^/\\?]*)").findall( self.request.path )
+		path = m[0] or "main" if m and len(m) else "main"
+		
+		# Check whether template exists
+		f = os.path.join( os.path.dirname( __file__ ), 'templates', 'pages', "%s.html" % path )
+		if not os.path.exists( f ): path = "main"
+			
+		# Render desired page
 		options = self.get_options()
 		options["sandbox"] = not(self.is_prod())
-		options["content"] = self.render( "main.html", options )
+		options["content"] = self.render( "pages/%s.html" % path, options )
 		self.response.out.write( self.render( "outer.html", options ) )
 
 	def post(self):
@@ -100,25 +110,6 @@ class MainHandler( HandlerBase ):
 
 		self.redirect(redirect_url, False)
 		
-class StaticHandler( HandlerBase ):
-	""" Handles requests for static-esque content. """
-	def get( self ):
-		if self.protect_sandbox(): return
-		
-		# Parse out the first path segment and use it if it's a legit promo
-		m = re.compile("^/?([^/\\?]*)").findall( self.request.path )
-		path = m[0] or "main" if m and len(m) else "main"
-		
-		# Check whether template exists
-		f = os.path.join( os.path.dirname( __file__ ), 'templates', "%s.html" % path )
-		if not os.path.exists( f ): path = "main"
-			
-		# Render desired page
-		options = self.get_options()
-		options["sandbox"] = not(self.is_prod())
-		options["content"] = self.render( "%s.html" % path, options )
-		self.response.out.write( self.render( "outer.html", options ) )
-
 
 class TicketHandler( HandlerBase ):
 	""" Handles requests for individual tickets """
@@ -225,7 +216,6 @@ class GPayNotifyHandler( HandlerBase ):
 
 def main():
 	application = webapp.WSGIApplication([
-		('/(?:about|additional|checkout|examples|faq|how|privacy)', StaticHandler),
 		('/gpaynotify', GPayNotifyHandler),
 		('/ticket/.*', TicketHandler),
 		('/.*', MainHandler), # must be listed last since this regex matches anything
