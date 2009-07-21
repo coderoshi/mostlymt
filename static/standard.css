@@ -80,7 +80,7 @@ body {
 	margin-bottom: 20px;
 }
 .form .middle, .info .middle {
-	min-height: 280px;
+	min-height: 285px;
 }
 .form p, .info p {
 	margin: 0;
@@ -127,11 +127,16 @@ body {
 }
 
 /* info box elements */
-.info dl, .info dd {
+.info dd {
+	margin: 6px 0 0 0;
+}
+.info dl {
 	margin: 0;
 }
 .info dt {
 	font-size: 1.2em;
+	height: 1.5em;
+	line-height: 1.5em;
 }
 .info ul {
 	margin: 0;
@@ -291,4 +296,5 @@ body {
   clear:both;
   list-style-type:none;
 }
+
 

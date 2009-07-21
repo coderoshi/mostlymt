@@ -6,7 +6,7 @@
 {% if promo %}<input type="hidden" name="promo" value="{{ promo|escape }}" />{% endif %}
 {% if key %}<input type="hidden" name="key" value="{{ key|escape }}" />{% endif %}
 <fieldset>
-<legend>Give us a task:</legend>
+<legend>give us a task:</legend>
 <p class="ideas"><span class="small"><a href="/examples" alt="Examples of good task requests.">examples?</a></span></p>
 <textarea name="description">{{ description|escape }}</textarea>
 {% if description_error %}<p class="validation-error"><span>* {{ description_error }}</span></p>{% endif %}
