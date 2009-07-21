@@ -1,4 +1,7 @@
-<div class="ticket">
+<div class="box">
+<div class="top"><div class="right"></div><div class="left"></div></div>
+<div class="middle staticbox ticket">
+
 <span class="date">{{ ticket.timestamp|date:"M d P T" }}</span>
 <ul>
 <li><label class="label">Payment Status</label> <span class="value">{{ ticket.financial_order_state }}</span></li>
@@ -18,4 +21,7 @@
 </li>
 <!-- li><span class="value">Commercial Email {% if not ticket.email_allowed %}Not{% endif %} Approved</span></li -->
 <ul>
+
+</div>
+<div class="bottom"><div class="right"></div><div class="left"></div></div>
 </div>
