@@ -2,11 +2,34 @@
 <div class="top"><div class="right"></div><div class="left"></div></div>
 <div class="middle staticbox ticket">
 
+<form action="" method="POST">
 <span class="date">{{ ticket.timestamp|date:"M d P T" }}</span>
 <ul>
+{% if ticket.promo_code %}
+<li><label class="label">Promo Code</label> <span class="value">{{ ticket.promo_code }}</span></li>
+{% else %}
 <li><label class="label">Payment Status</label> <span class="value">{{ ticket.financial_order_state }}</span></li>
+{% endif %}
 <li><span class="label">Hours</span> <span class="value">{{ ticket.hours }}</span></li>
 {% if ticket.additional %}<li><span class="label">Additional amount</span> <span class="value">{{ currency }}{{ ticket.additional|floatformat:2 }}</span></li>{% endif %}
+{% if ticket.promo_code %}
+<li><span class="label">Name</span> <span class="value">{% if ticket.name %}{{ ticket.name }}{% else %}<input name="name" />{% endif %}</span></li>
+<li><span class="label">Email</span> <span class="value">{% if ticket.email %}{{ ticket.email }}{% else %}<input name="email" />{% endif %}</span></li>
+<li><span class="label">Address</span>
+  <ul>
+    <li>{% if ticket.street_address %}<span class="value">{{ ticket.street_address }}{% else %}<span class="label">Street</span> <input name="street" />{% endif %}</span></li>
+    
+    {% if ticket.city and ticket.region and ticket.postal_code %}
+    <li><span class="value">{% if ticket.city %}{{ ticket.city }}, {% endif %}{{ ticket.region }} {{ ticket.postal_code }}</span></li>
+    {% else %}
+    <li>{% if ticket.city %}<span class="value">{{ ticket.city }}{% else %}<span class="label">City</span> <input name="city" />{% endif %}</span></li>
+    <li>{% if ticket.region %}<span class="value">{{ ticket.region }}{% else %}<span class="label">State</span> <input name="region" />{% endif %}</span></li>
+    <li>{% if ticket.postal_code %}<span class="value">{{ ticket.postal_code }}{% else %}<span class="label">Postal Code</span> <input name="postal_code" />{% endif %}</span></li>
+    {% endif %}
+    <li>{% if ticket.country_code %}<span class="value">{{ ticket.country_code }}{% else %}<span class="label">Country Code</span> <input name="country_code" value="US" />{% endif %}</span></li>
+  </ul>
+</li>
+{% else %}
 <li><span class="label">Name</span> <span class="value">{{ ticket.name }}</span></li>
 <li><span class="label">Email</span> <span class="value">{{ ticket.email }}</span></li>
 <li><span class="label">Address</span>
@@ -16,11 +39,16 @@
     <li><span class="value">{{ ticket.country_code }}</span></li>
   </ul>
 </li>
+{% endif %}
 <li><span class="label">Task Description</span>
   <blockquote class="value">{{ ticket.description|escape }}</blockquote>
 </li>
 <!-- li><span class="value">Commercial Email {% if not ticket.email_allowed %}Not{% endif %} Approved</span></li -->
 <ul>
+{% if ticket.needs_completion %}
+<input type="submit" name="submit" value="Complete Ticket" />
+{% endif %}
+</form>
 
 </div>
 <div class="bottom"><div class="right"></div><div class="left"></div></div>

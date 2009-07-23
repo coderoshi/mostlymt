@@ -1,9 +1,9 @@
 from google.appengine.ext import webapp, db
 
 class Ticket( db.Model ):
-	email = db.EmailProperty()
+	given_email = db.EmailProperty()
 	phone = db.PhoneNumberProperty()
-	name = db.StringProperty()
+	full_name = db.StringProperty()
 	description = db.TextProperty()
 	price = db.FloatProperty()
 	hours = db.IntegerProperty(default=1)
@@ -33,6 +33,7 @@ class Ticket( db.Model ):
 	shipping_postal_code = db.StringProperty()
 	shipping_country_code = db.StringProperty()
 	production = db.BooleanProperty(default=False)
+	promo_code = db.StringProperty()
 	
 	def first_name( self ):
 		if self.shipping_first_name: return self.shipping_first_name
@@ -45,9 +46,14 @@ class Ticket( db.Model ):
 		return ''
 	
 	def name( self ):
-		return "%s %s" % (self.first_name(), self.last_name())
+		if self.full_name: return self.full_name
+		if self.first_name():
+			return "%s %s" % (self.first_name(), self.last_name())
+		else:
+			return self.last_name()
 	
 	def email( self ):
+		if self.given_email: return self.given_email
 		if self.shipping_email: return self.shipping_email
 		if self.billing_email: return self.billing_email
 		return ''
@@ -93,4 +99,7 @@ class Ticket( db.Model ):
 		if self.billing_country_code: return self.billing_country_code
 		return ''
 	
+	def needs_completion( self ):
+		return (self.name() == '' or self.email() == '' or self.city() == '' or self.region == '' or self.postal_code == '')
+		
 

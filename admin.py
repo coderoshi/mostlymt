@@ -11,6 +11,7 @@ from google.appengine.ext import webapp, db
 from google.appengine.api import users
 from handlers.HandlerBase import HandlerBase
 from models.ticket import Ticket
+from models.promo import Promo
 
 class TicketsHandler( HandlerBase ):
 	""" Handles requests for the tickets page. """
@@ -36,6 +37,33 @@ class TicketsHandler( HandlerBase ):
 		self.response.out.write( self.render( "admin.html", options ) )
 
 
+class PromosHandler( HandlerBase ):
+	""" Handles requests for the tickets page. """
+	def post( self ):
+		""" Handles HTTP POST requests. """
+		Promo(code=Promo.generate_code()).put()
+		
+		query = Promo.all()
+		query.filter('used =', False)
+		promos = query.fetch(250)
+		
+		options = self.get_options()
+		options["promos"] = promos
+		options["content"] = self.render( "admin/promos.html", options )
+		self.response.out.write( self.render( "admin.html", options ) )
+		
+	def get( self ):
+		""" Handles HTTP GET requests. """
+		query = Promo.all()
+		query.filter('used =', False)
+		promos = query.fetch(250)
+		
+		options = self.get_options()
+		options["promos"] = promos
+		options["content"] = self.render( "admin/promos.html", options )
+		self.response.out.write( self.render( "admin.html", options ) )
+
+
 class MainHandler( HandlerBase ):
 	""" Handles requests for the admin index page. """
 	def get( self ):
@@ -48,6 +76,7 @@ class MainHandler( HandlerBase ):
 
 def main():
 	application = webapp.WSGIApplication([
+		('/admin/promos', PromosHandler),
 		('/admin/tickets', TicketsHandler),
 		('/admin', MainHandler),
 	], debug=True)

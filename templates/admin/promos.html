@@ -1,0 +1,12 @@
+<h2>Current Promos</h2>
+<ul class="promos">
+{% for promo in promos %}
+<li>
+  PROMO:<span class="code">{{ promo.code|escape }}</span>
+</li>
+{% endfor %}
+</ul>
+
+<form action="/admin/promos" method="post">
+  <input type="submit" />
+</form>

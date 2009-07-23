@@ -11,6 +11,7 @@ from google.appengine.api import mail, urlfetch, datastore_errors
 from google.appengine.ext import webapp, db
 from handlers import HandlerBase
 from models.ticket import Ticket
+from models.promo import Promo
 from xml.dom import minidom
 import checkout
 
@@ -28,7 +29,7 @@ class MainHandler( HandlerBase ):
 		# Check whether template exists
 		f = os.path.join( os.path.dirname( __file__ ), 'templates', 'pages', "%s.html" % path )
 		if not os.path.exists( f ): path = "main"
-			
+		
 		# Render desired page
 		options = self.get_options()
 		options["sandbox"] = not(self.is_prod())
@@ -96,24 +97,74 @@ class MainHandler( HandlerBase ):
 			total = options["price"] * data["hours"] + data["additional"]
 		)
 		ticket.production = self.is_prod()
+		promo = Promo.find_promo(ticket.description)
+		if promo:
+			ticket.promo_code = promo.code
+			ticket.hours = promo.hours
 		ticket.put()
-
+		
 		return_url = "%s/ticket/%s" % ( base_url, str(ticket.key()) )
-
-		env = self.get_settings()
-		google_co = checkout.Google(
-			item_name, item_desc, unit_price, data["hours"],
-			data["additional"], options["additional_name"], options["additional_desc"],
-			return_url, ticket.key()
-		)
-		google_co.fetch(env['google-co-username'], env['google-co-password'], env['google-co'])
-		redirect_url = google_co.get_redirect_url()
-
-		self.redirect(redirect_url, False)
+		
+		if not promo:
+			env = self.get_settings()
+			google_co = checkout.Google(
+				item_name, item_desc, unit_price, data["hours"],
+				data["additional"], options["additional_name"], options["additional_desc"],
+				return_url, ticket.key()
+			)
+			google_co.fetch(env['google-co-username'], env['google-co-password'], env['google-co'])
+			redirect_url = google_co.get_redirect_url()
+			
+			self.redirect(redirect_url, False)
+			
+		else:
+			self.redirect(return_url, False)
+			
 		
 
 class TicketHandler( HandlerBase ):
 	""" Handles requests for individual tickets """
+	def post(self):
+		if self.protect_sandbox(): return
+		
+		ticket_key = self.request.path[8:]
+		ticket = db.get( db.Key( ticket_key ) )
+		
+		if self.request.get('name'): ticket.full_name = self.request.get('name')
+		if self.request.get('email'): ticket.given_email = self.request.get('email')
+		if self.request.get('street'): ticket.shipping_address_1 = self.request.get('street')
+		if self.request.get('city'): ticket.shipping_city = self.request.get('city')
+		if self.request.get('region'): ticket.shipping_region = self.request.get('region')
+		if self.request.get('postal_code'): ticket.shipping_postal_code = self.request.get('postal_code')
+		if self.request.get('country_code'): ticket.shipping_country_code = self.request.get('country_code')
+		
+		if not ticket.needs_completion():
+			promo = Promo.find_by_code(ticket.promo_code)
+			promo.used = True
+			promo.put()
+			
+			ticket.financial_order_state = 'CHARGEABLE'
+			
+			# Create options hash from ticket standard fields
+			# fields = ( 'email', 'name', 'phone', 'description', 'hours', 'additional' )
+			options = {'email':ticket.email(), 'name':ticket.name(), 'description':ticket.description, 'hours':ticket.hours, 'additional':0}
+			# for field in fields: options[field] = getattr( ticket, field )
+			
+			# Create and send email message
+			env = self.get_settings()
+			body = self.render( "messagebody.txt", options )
+			message = mail.EmailMessage(
+					sender=env['email-sender'],
+					subject=env['email-subject'],
+					to=env['email-to'],
+					body=body
+				)
+			message.send()
+		
+		ticket.put()
+		
+		self.redirect(self.request.path, False)
+		
 	def get(self):
 		if self.protect_sandbox(): return
 		
