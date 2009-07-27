@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: http://www.microtasking.net/static/sitemap.xml
