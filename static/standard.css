@@ -304,5 +304,26 @@ body {
   list-style-type:none;
 }
 
+.guarantee {
+  margin-left:auto;
+  margin-right:auto;
+  float:center;
+  text-align:center;
+  background-color:#E6EAF0;
+  border:3px double #3399FF;
+  /*width:220px;*/
+}
 
-
+.guarantee .header {
+  font-weight:bold;
+  /*font-size:1.1em;*/
+}
+.guarantee .header sup a {
+  color:#3399FF;
+  text-decoration:none;
+}
+.guarantee .details {
+  font-size:0.8em;
+  color:#3399FF;
+	font-style:italic;
+}
