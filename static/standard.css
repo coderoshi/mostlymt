@@ -132,6 +132,9 @@ body {
 .checkout input:active {
   background:#3398FE url(/static/images/checkout-button.png) no-repeat 0px -39px;
 }
+.checkout input.pressed {
+  background:#3398FE url(/static/images/checkout-button.png) no-repeat 0px -39px;
+}
 
 /* info box elements */
 .info dd {

@@ -25,7 +25,7 @@ Additional amount: {{ currency }}
 <span class="small"><a href="/additional" title="What is the additional amount?">?</a></span>
 </p>
 {% if additional_error %}<p class="validation-error"><span>* {{ additional_error }} {{ currency }}{{ max_additional|floatformat:2 }}</span></p>{% endif %}
-<p class="checkout"><input class="button" type="submit" name="checkout" value="Do My Work" onclick="if (window.hiddenCommit) { window.hiddenCommit.setAttribute('value', this.value); }else { hiddenCommit = this.cloneNode(false);hiddenCommit.setAttribute('type', 'hidden');this.form.appendChild(hiddenCommit); }this.setAttribute('originalValue', this.value);this.disabled = true;this.value='Working...';result = (this.form.onsubmit ? (this.form.onsubmit() ? this.form.submit() : false) : this.form.submit());if (result == false) { this.value = this.getAttribute('originalValue');this.disabled = false; }return result;" /></p>
+<p class="checkout"><input class="button" type="submit" name="checkout" value="Do My Work" onclick="if (window.hiddenCommit) { window.hiddenCommit.setAttribute('value', this.value); }else { hiddenCommit = this.cloneNode(false);hiddenCommit.setAttribute('type', 'hidden');this.form.appendChild(hiddenCommit); }this.setAttribute('originalValue', this.value);this.disabled = true;this.value='Working...';this.setAttribute('class', 'pressed');result = (this.form.onsubmit ? (this.form.onsubmit() ? this.form.submit() : false) : this.form.submit());if (result == false) { this.value = this.getAttribute('originalValue');this.disabled = false; }return result;" /></p>
 </fieldset>
 <div class="guarantee">
   <div class="details">If you aren't completely satisfied</div>
