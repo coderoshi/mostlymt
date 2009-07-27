@@ -122,7 +122,7 @@ body {
 	text-align: center;
 }
 .checkout input {
-	background:url(/static/images/checkout-button.png) no-repeat 0px 0px;
+	background:orange url(/static/images/checkout-button.png) no-repeat 0px 0px;
 	border: none;
 	width:234px;
 	height:38px;
@@ -130,7 +130,7 @@ body {
 	font-size:1.75em;
 }
 .checkout input:active {
-  background:url(/static/images/checkout-button.png) no-repeat 0px -39px;
+  background:#3398FE url(/static/images/checkout-button.png) no-repeat 0px -39px;
 }
 
 /* info box elements */
