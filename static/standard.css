@@ -122,12 +122,15 @@ body {
 	text-align: center;
 }
 .checkout input {
-	background-image: url(/static/images/checkout-button.png);
+	background:url(/static/images/checkout-button.png) no-repeat 0px 0px;
 	border: none;
-	width:210px;
-	height:34px;
+	width:234px;
+	height:38px;
 	color:white;
-	font-size:1.65em;
+	font-size:1.75em;
+}
+.checkout input:active {
+  background:url(/static/images/checkout-button.png) no-repeat 0px -39px;
 }
 
 /* info box elements */
@@ -178,7 +181,7 @@ body {
 .quotebox {
 	position: relative;
 	clear: both;
-	height: 150px;
+	height: 120px;
 	/*border-top:3px solid #C5CFDD;*/
 	/*margin:-20px;*/
 	margin-left:-20px;
@@ -224,12 +227,12 @@ body {
 .firstquote {
 	width: 300px;
 	top: 20px;
-	left: 40px;
+	left: 50px;
 }
 .secondquote {
 	width: 320px;
-	top: 60px;
-	left: 400px;
+	top: 20px;
+	left: 420px;
 }
 
 /* static contentx box */
