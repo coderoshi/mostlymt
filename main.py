@@ -151,7 +151,7 @@ class TicketHandler( HandlerBase ):
 			# for field in fields: options[field] = getattr( ticket, field )
 			
 			# Create and send email message
-			env = self.get_settings()
+			env = self.get_settings( ticket.production )
 			body = self.render( "messagebody.txt", options )
 			message = mail.EmailMessage(
 					sender=env['email-sender'],
@@ -244,7 +244,7 @@ class GPayNotifyHandler( HandlerBase ):
 		for field in fields: options[field] = getattr( ticket, field )
 		
 		# Create and send email message
-		env = self.get_settings()
+		env = self.get_settings( ticket.production )
 		body = self.render( "messagebody.txt", options )
 		message = mail.EmailMessage(
 				sender=env['email-sender'],

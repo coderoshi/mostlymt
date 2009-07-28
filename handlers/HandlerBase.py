@@ -54,17 +54,17 @@ class HandlerBase( webapp.RequestHandler ):
 		return options
 		
 		
-	def is_prod( self ):
+	def is_prod( self, override_prod=False ):
 		if not hasattr(self, '__is_prod__'):
-			self.__is_prod__ = urlparse( self.request.url ).hostname == "www.microtasking.net"
+			self.__is_prod__ = override_prod or urlparse( self.request.url ).hostname == "www.microtasking.net"
 		return self.__is_prod__
 		
-	def get_settings( self ):
+	def get_settings( self, override_prod=False ):
 		"""
 			Returns a settings hash appropriate to the environment.
 		"""
 		if hasattr( self, "ENV" ): return self.ENV
-		env = settings.PRODUCTION if self.is_prod() else settings.SANDBOX
+		env = settings.PRODUCTION if self.is_prod( override_prod=override_prod ) else settings.SANDBOX
 		setattr( self, "ENV", env )
 		return self.ENV
 		
