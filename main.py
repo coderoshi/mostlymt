@@ -185,9 +185,10 @@ class GPayNotifyHandler( HandlerBase ):
 	self.post()
   
   def post(self):
-	checkout_gn = checkout.GoogleNotified()
+	logging.info(self.request.body)
 	if not self.request.body:
 	  return
+	checkout_gn = checkout.GoogleNotified()
 	checkout_gn.parse(self.request.body)
 	
 	if checkout_gn.new_purchase:
