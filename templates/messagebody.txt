@@ -1,39 +1,19 @@
 
-TASK:
+This is a microtask.  Instructions on what to do are here:
 
-We just received a task from {{ name }} (email: {{ email }}).
+http://docs.google.com/Doc?docid=0AZp-2Hw2MlDCZGZxZG1ncnBfN2Zrdmg5NGNt&hl=en
 
-Please evaluate the task, and if it's reasonable:
+NAME: {{ name }}
+EMAIL: {{ email }}
+DURATION: {{ hours }} hour{{ hours|pluralize }}
+SPENDING: ${{ additional|floatformat:2 }}{% if address %}
 
-1) Send {{ name }} an email explaining what you plan to do as soon as possible (within 1 business day of receiving this message at the latest)
-
-2) Complete the task within 1 business day of sending the above email message.
-
-If it's not reasonable, immediately send {{ name }} an email explaining that it won't be possible to service their request due to volume.  
-
-Contact them directly if necessary via email: {{ email }}
-
-SPENDING:
-{% if additional %}
-You are authorized to spend up to ${{ additional|floatformat:2 }} in order to complete this task.
-
-If the task would obviously require more than this amount, immediately send {{ name }} an email explaining that it will not be possible to complete the task given the amount provided, and they will not be charged.
-{% else %}
-Under no circumstances are you to spend any money towards the completion of this task.
-
-If the task requires spending any money, immediately send {{ name }} an email explaining that it will not be possible to complete the task, and that they will not be charged.
-{% endif %}
-
-DURATION:
-
-Spend no more than {{ hours }} hour{{ hours|pluralize }} on this task. (The less time the better).
-
-If the task clearly cannot be completed within this time, notify the requester by email and do not begin work on the task itself.
-
-Include any time spent evaluating the task or sending emails for clarification towards the total time for the task.
+ADDRESS:
+{{ address_1 }}{% if address_2 %}
+{{ address_2 }}{% endif %}
+{{ city }}, {{ region }} ({{ country_code }}) {{ postal_code }}{% endif %}
 
 DESCRIPTION:
 
 {{ description }}
-
 

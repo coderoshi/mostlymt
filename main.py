@@ -242,6 +242,11 @@ class GPayNotifyHandler( HandlerBase ):
 		fields = ( 'email', 'name', 'phone', 'description', 'hours', 'additional' )
 		options = {}
 		for field in fields: options[field] = getattr( ticket, field )
+		address = ( 'address_1', 'address_2', 'city', 'region', 'postal_code', 'country_code' )
+		prefix = "shipping_" if checkout_gn.shipping else "billing_" if checkout_gn.billing else None
+		if prefix:
+			options["address"] = True
+			for field in address: options[field] = getattr( ticket, "%s%s" % (prefix, field) )
 		
 		# Create and send email message
 		env = self.get_settings( ticket.production )
