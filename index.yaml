@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used once in query history.
+# Used 17 times in query history.
 - kind: Ticket
   properties:
   - name: financial_order_state
@@ -18,7 +18,7 @@ indexes:
   - name: timestamp
     direction: desc
 
-# Used 2 times in query history.
+# Used 34 times in query history.
 - kind: Ticket
   properties:
   - name: production
