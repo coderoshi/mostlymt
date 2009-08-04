@@ -5,6 +5,7 @@
 <li class="break"><span class="date">{{ ticket.timestamp.date }}</span></li>
 {% endifchanged %}
 <li>
+  <div class="id">Ticket <a href="/ticket/{{ ticket.key }}">{{ ticket.key }}</a></div>
   <div class="time">{{ ticket.timestamp|date:"P" }}</div>
   <div class="name">{{ ticket.name|escape }}</div>
   <blockquote class="description">{{ ticket.description|escape }}</blockquote>
@@ -19,6 +20,7 @@
 <li class="break"><span class="date">{{ ticket.timestamp.date }}</span></li>
 {% endifchanged %}
 <li>
+  <div class="id">Ticket <a href="/ticket/{{ ticket.key }}">{{ ticket.key }}</a></div>
   <div class="time">{{ ticket.timestamp|date:"P" }}</div>
   <div class="name">{{ ticket.name|escape }}</div>
   <div><span class="label">Hours</span> <span class="value">{{ ticket.hours }}</span></div>
