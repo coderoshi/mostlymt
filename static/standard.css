@@ -345,3 +345,14 @@ body {
   color:#3399FF;
 	font-style:italic;
 }
+
+span.pdf a {
+  height:32px;
+  width:32px;
+  display:block;
+  background:url(/static/images/pdf.gif);
+  margin-left:20px;
+}
+span.pdf span {
+  display:none;
+}
