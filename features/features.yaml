@@ -30,7 +30,16 @@ default:
     "Just microtask it!": 0.50
 
   # How much per task
-  price: 11.99
+  small_price: 11.99
+  medium_price: 22.99
+  halfday_price: 43.99
+  fullday_price: 83.99
+  
+  # Descriptions for task sizes
+  small_desc: "Small"
+  medium_desc: "Medium"
+  halfday_desc: "Half day"
+  fullday_desc: "Full day"
 
   # Maximum "additional amount"
   max_additional: 100.0

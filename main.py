@@ -57,12 +57,15 @@ class MainHandler( HandlerBase ):
 			data["description_error"] = options["description_too_short"]
 			
 		# Coerce number of hours to legal value
+		hour_sizes = { 1: "small", 2: "medium", 4: "halfday", 8: "fullday" }
 		try:
 			data["hours"] = int( data["hours"] )
-			if data["hours"] < 1: data["hours"] = 1
-			if data["hours"] > 4: data["hours"] = 4
+			if not data["hours"] in hour_sizes: data["hours"] = 1
 		except TypeError:
 			data["hours"] = 1
+		task_size = hour_sizes[data["hours"]]
+		task_desc = options["%s_desc" % task_size]
+		price = options["%s_price" % task_size]
 	
 		# Check the "additional" ammount
 		max_additional = options["max_additional"]
@@ -83,19 +86,18 @@ class MainHandler( HandlerBase ):
 			return self.get()
 
 		suffix = "s" if data["hours"] > 1 else ""
-		item_name = "%s Hour%s" % ( data["hours"], suffix )
+		item_name = "%s task (%s Hour%s)" % ( task_desc, data["hours"], suffix )
 		item_desc = "A microtask of %s hours time" % data["hours"]
-		unit_price = options["price"]
 		base_url = self.request.url[0 : len(self.request.url) - len(self.request.path)]
 		# return_url = "%s/%s" % ( base_url, options["promo"] or "" )
 
 		# This is a PENDING ticket. Does not become 'active' until CC is Authorized
 		ticket = Ticket(
 			description = data["description"],
-			price = options["price"],
+			price = price,
 			hours = data["hours"],
 			additional = data["additional"],
-			total = options["price"] * data["hours"] + data["additional"]
+			total = price + data["additional"]
 		)
 		ticket.production = self.is_prod()
 		promo = Promo.find_promo(ticket.description)
@@ -109,7 +111,7 @@ class MainHandler( HandlerBase ):
 		if not promo:
 			env = self.get_settings()
 			google_co = checkout.Google(
-				item_name, item_desc, unit_price, data["hours"],
+				item_name, item_desc, price, data["hours"],
 				data["additional"], options["additional_name"], options["additional_desc"],
 				return_url, ticket.key()
 			)

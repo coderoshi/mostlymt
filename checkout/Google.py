@@ -72,7 +72,7 @@ class Google(object):
             <item-name>%s</item-name>
             <item-description>%s</item-description>
             <unit-price currency="USD">%s</unit-price>
-            <quantity>%s</quantity>
+            <quantity>1</quantity>
             <digital-content>
               <display-disposition>PESSIMISTIC</display-disposition>
               <description>
@@ -90,6 +90,6 @@ class Google(object):
         <merchant-checkout-flow-support />
       </checkout-flow-support>
       <order-processing-support />
-    </checkout-shopping-cart>''' % (self.name, self.desc, self.price, self.hours, self.return_url, extra, self.key)
+    </checkout-shopping-cart>''' % (self.name, self.desc, self.price, self.return_url, extra, self.key)
   
   

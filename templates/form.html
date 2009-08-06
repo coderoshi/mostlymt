@@ -11,13 +11,14 @@
 <textarea name="description">{{ description|escape }}</textarea>
 {% if description_error %}<p class="validation-error"><span>* {{ description_error }}</span></p>{% endif %}
 <p>
-This task should take about
+Task size:
 <select name="hours">
-  <option value="1" {% ifequal hours 1 %}selected="selected"{% endifequal %}>1 Hour</option>
-  <option value="2" {% ifequal hours 2 %}selected="selected"{% endifequal %}>2 Hours</option>
-  <option value="3" {% ifequal hours 3 %}selected="selected"{% endifequal %}>3 Hours</option>
-  <option value="4" {% ifequal hours 4 %}selected="selected"{% endifequal %}>4 Hours</option>
+  <option value="1" {% ifequal hours 1 %}selected="selected"{% endifequal %}>{{ small_desc }} - {{ currency }}{{ small_price }}</option>
+  <option value="2" {% ifequal hours 2 %}selected="selected"{% endifequal %}>{{ medium_desc }} - {{ currency }}{{ medium_price }}</option>
+  <option value="4" {% ifequal hours 4 %}selected="selected"{% endifequal %}>{{ halfday_desc }} - {{ currency }}{{ halfday_price }}</option>
+  <option value="8" {% ifequal hours 8 %}selected="selected"{% endifequal %}>{{ fullday_desc }} - {{ currency }}{{ fullday_price }}</option>
 </select>
+<span class="small"><a href="/sizes" title="What are the task sizes?">?</a></span>
 </p>
 <p>
 Additional amount: {{ currency }}

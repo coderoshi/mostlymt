@@ -356,3 +356,11 @@ span.pdf a {
 span.pdf span {
   display:none;
 }
+
+/* data tables */
+.datatable {
+  border: 1px solid #ccc;
+}
+.datatable td {
+  border-top: 1px solid #ccc;
+}
