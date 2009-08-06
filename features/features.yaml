@@ -53,16 +53,3 @@ default:
   additional_too_high: "Additional amount cannot exceed "
   please_check: "Please double check your info provided below, then re-submit.  Thanks!"
 
-# Breast cancer awareness promotion
-pinkribbon:
-  stylesheet: pinkribbon
-  tagline:
-    "Support awareness": 0.50
-    "Yes we can!": 0.50
-  price: 12.99
-  promo_intro:
-    "Buy today and we'll donate 10% to Breast Cancer Awareness.": 0.25
-    "Buy today and we'll donate 10% to Breast Cancer Research.": 0.25
-    "Buy today and we'll donate 1$ to Breast Cancer Awareness.": 0.25
-    "Buy today and we'll donate 1$ to Breast Cancer Research.": 0.25
-
