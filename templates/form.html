@@ -21,11 +21,36 @@ This task should take about
 </p>
 <p>
 Additional amount: {{ currency }}
-<input type="text" class="text" name="additional" value="{% if additional %}{{ additional|floatformat:2 }}{% else %}0.00{% endif %}" />
+<input id="additional" type="text" class="text" name="additional" value="{% if additional %}{{ additional|floatformat:2 }}{% else %}0.00{% endif %}" />
 <span class="small"><a href="/additional" title="What is the additional amount?">?</a></span>
 </p>
 {% if additional_error %}<p class="validation-error"><span>* {{ additional_error }} {{ currency }}{{ max_additional|floatformat:2 }}</span></p>{% endif %}
-<p class="checkout"><input class="button" type="submit" name="checkout" value="Do My Work" onclick="if (window.hiddenCommit) { window.hiddenCommit.setAttribute('value', this.value); }else { hiddenCommit = this.cloneNode(false);hiddenCommit.setAttribute('type', 'hidden');this.form.appendChild(hiddenCommit); }this.setAttribute('originalValue', this.value);this.disabled = true;this.value='Working...';this.setAttribute('class', 'pressed');result = (this.form.onsubmit ? (this.form.onsubmit() ? this.form.submit() : false) : this.form.submit());if (result == false) { this.value = this.getAttribute('originalValue');this.disabled = false; }return result;" /></p>
+<p class="checkout">
+<input id="submit" class="button" type="submit" name="checkout" value="Do My Work" />
+<script type="text/javascript">
+(function(){
+	// Single-press form button - once submitted, does not allow second submission.
+	var form = document.getElementsByTagName("form")[0],
+		button = document.getElementById("submit"),
+		select = form.getElementsByTagName("select")[0],
+		additional = document.getElementById("additional"),
+		oldvalue = button.value;
+	form.onsubmit = function onsubmit() {
+		if (button.disabled) return false;
+		button.value = "Working...";
+		button.className = "pressed";
+		return button.disabled = true;
+	};
+	select.onchange = additional.onchange = additional.onkeyup = function onchange() {
+		if (!button.disabled) return true;
+		button.value = oldvalue;
+		button.className = button.className.replace(/(^|\s)pressed(\s|$)/g, '');
+		button.disabled = false;
+		return true;
+	};
+})();
+</script>
+</p>
 </fieldset>
 </form>
 </div>
