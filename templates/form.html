@@ -52,7 +52,7 @@ Additional amount: {{ currency }}
 	};
 	
 	// On any change, update the total and reactivate the button if necessary
-	select.onchange = additional.onchange = additional.onkeyup = function onchange() {
+	function onchange() {
 		var o = options[select.selectedIndex], m = (o.innerText || o.textContent).match(/(\d+(\.\d+)?)$/);
 		var t = (parseFloat(m[0]) || 0) + (parseFloat(additional.value) || 0) + '';
 		t = t.replace(/^(\d+\.\d\d).*$/, "$1") + ( t.match(/\.\d$/) ? '0' : '' );
@@ -62,7 +62,8 @@ Additional amount: {{ currency }}
 		button.className = button.className.replace(/(^|\s)pressed(\s|$)/g, '');
 		button.disabled = false;
 		return true;
-	};
+	}
+	select.onchange = additional.onchange = additional.onkeyup = onchange;
 	
 	// Show the total
 	onchange();
