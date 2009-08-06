@@ -33,6 +33,7 @@ class MainHandler( HandlerBase ):
 		# Render desired page
 		options = self.get_options()
 		options["sandbox"] = not(self.is_prod())
+		options["title"] = path
 		options["form"] = self.render( "form.html", options )
 		options["content"] = self.render( "pages/%s.html" % path, options )
 		self.response.out.write( self.render( "outer.html", options ) )
