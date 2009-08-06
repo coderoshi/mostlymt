@@ -26,29 +26,47 @@ Additional amount: {{ currency }}
 <span class="small"><a href="/additional" title="What is the additional amount?">?</a></span>
 </p>
 {% if additional_error %}<p class="validation-error"><span>* {{ additional_error }} {{ currency }}{{ max_additional|floatformat:2 }}</span></p>{% endif %}
+<p id="total" class="total" style="display:none">
+<label>Total: {{ currency }}<span></span></label>
+</p>
 <p class="checkout">
 <input id="submit" class="button" type="submit" name="checkout" value="Do My Work" />
 <script type="text/javascript">
 (function(){
-	// Single-press form button - once submitted, does not allow second submission.
-	var form = document.getElementsByTagName("form")[0],
-		button = document.getElementById("submit"),
-		select = form.getElementsByTagName("select")[0],
-		additional = document.getElementById("additional"),
+	// Handles on relevant elements and other vars
+	var d = document, tag = "getElementsByTagName", id = "getElementById";
+	var form = d[tag]("form")[0],
+		button = d[id]("submit"),
+		select = form[tag]("select")[0],
+		options = select[tag]("option"),
+		additional = d[id]("additional"),
+		total = d[id]("total"),
 		oldvalue = button.value;
+		
+	// Single-press form button - once submitted, does not allow second submission.
 	form.onsubmit = function onsubmit() {
 		if (button.disabled) return false;
 		button.value = "Working...";
 		button.className = "pressed";
 		return button.disabled = true;
 	};
+	
+	// On any change, update the total and reactivate the button if necessary
 	select.onchange = additional.onchange = additional.onkeyup = function onchange() {
+		var o = options[select.selectedIndex], m = (o.innerText || o.textContent).match(/(\d+(\.\d+)?)$/);
+		var t = (parseFloat(m[0]) || 0) + (parseFloat(additional.value) || 0) + '';
+		t = t.replace(/^(\d+\.\d\d).*$/, "$1") + ( t.match(/\.\d$/) ? '0' : '' );
+		total[tag]("span")[0].innerHTML = (t + '').replace(/^(\d+\.\d\d).*$/, "$1");
 		if (!button.disabled) return true;
 		button.value = oldvalue;
 		button.className = button.className.replace(/(^|\s)pressed(\s|$)/g, '');
 		button.disabled = false;
 		return true;
 	};
+	
+	// Show the total
+	onchange();
+	total.style.display = '';
 })();
 </script>
 </p>
