@@ -364,3 +364,7 @@ span.pdf span {
 .datatable td {
   border-top: 1px solid #ccc;
 }
+
+.example {
+  font-size:80%;
+}
